@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="largestUrl" />
+    <img :src="largestUrl"/>
     <div>{{ name }}</div>
   </div>
 </template>
@@ -18,25 +18,27 @@ export default {
         .sort()
         .reverse()[0];
 
-      return this.urls[maxIdx];
+      return "https:" + this.urls[maxIdx];
     }
   },
   methods: {
     download() {
-      // TODO: this doesn't work due to CORS
-      var xhr = new XMLHttpRequest();
+      let xhr = new XMLHttpRequest();
       xhr.open("GET", this.largestUrl, true);
       xhr.responseType = "blob";
+      let name = this.name;
+
       xhr.onload = function() {
-        var urlCreator = window.URL || window.webkitURL;
-        var imageUrl = urlCreator.createObjectURL(this.response);
-        var tag = document.createElement("a");
+        let urlCreator = window.URL || window.webkitURL;
+        let imageUrl = urlCreator.createObjectURL(this.response);
+        let tag = document.createElement("a");
         tag.href = imageUrl;
-        tag.download = this.name + ".png";
+        tag.download = name + ".png";
         document.body.appendChild(tag);
         tag.click();
         document.body.removeChild(tag);
       };
+
       xhr.send();
     }
   }
