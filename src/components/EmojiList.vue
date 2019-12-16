@@ -29,8 +29,13 @@ export default {
   },
   methods: {
     loadEmojis() {},
-    download() {
-      this.$children.forEach(x => x.download());
+    getFiles() {
+      return Promise.all(
+         this.$children.map(x => x.getFile())
+      );
+    },
+    isSelected() {
+      return !!this.$children.reduce((acc, x) => acc + x.isSelected(), false);
     }
   }
 };
