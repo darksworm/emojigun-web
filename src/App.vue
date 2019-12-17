@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-<!--    <div id="nav">-->
-<!--      <router-link to="/">Home</router-link> |-->
-<!--    </div>-->
     <router-view />
+    <selected-emoji-list :emojis.sync="selectedEmojis"></selected-emoji-list>
   </div>
 </template>
 
@@ -29,3 +27,15 @@
   }
 }
 </style>
+<script>
+import SelectedEmojiList from "./components/SelectedEmojiList";
+
+export default {
+  components: { SelectedEmojiList },
+  data() {
+    return { selectedEmojis: {} };
+  },
+  mounted() {
+  }
+};
+</script>

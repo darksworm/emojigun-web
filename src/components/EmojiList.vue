@@ -1,12 +1,12 @@
 <template>
   <div>
     <h2 class="title">{{ title }}</h2>
-    <emoji
-      v-for="(emoji, i) in emojis"
-      v-bind:key="i"
-      :name="emoji.name"
-      :urls="emoji.urls"
-    ></emoji>
+    <template v-for="(emoji, i) in emojis">
+      <div class="emoji" v-bind:key="i">
+        <emoji :name="emoji.name" :urls="emoji.urls"></emoji>
+      </div>
+    </template>
+    <slot></slot>
   </div>
 </template>
 
@@ -28,11 +28,11 @@ export default {
     this.loadEmojis().then(e => (this.emojis = e));
   },
   methods: {
-    loadEmojis() {},
+    loadEmojis() {
+      return Promise.resolve();
+    },
     getFiles() {
-      return Promise.all(
-         this.$children.map(x => x.getFile())
-      );
+      return Promise.all(this.$children.map(x => x.getFile()));
     },
     isSelected() {
       return !!this.$children.reduce((acc, x) => acc + x.isSelected(), false);
@@ -41,4 +41,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.emoji {
+  display: inline-block;
+}
+</style>

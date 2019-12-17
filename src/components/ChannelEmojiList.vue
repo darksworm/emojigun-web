@@ -28,4 +28,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.emoji {
+  display: inline-block;
+}
+</style>

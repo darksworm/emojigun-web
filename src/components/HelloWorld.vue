@@ -29,6 +29,9 @@ export default {
       requestedChannels: {}
     };
   },
+  mounted() {
+    console.log(this.$root.$data);
+  },
   methods: {
     loadChannelEmojis(channelName) {
       if (typeof this.requestedChannels[channelName] === "string") {
@@ -38,6 +41,7 @@ export default {
     },
     removeChannel(channelName) {
       delete this.requestedChannels[channelName];
+      this.$forceUpdate();
     },
     downloadSelections() {
       let zip = new JSZip();

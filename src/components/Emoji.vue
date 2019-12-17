@@ -2,6 +2,9 @@
   <div>
     <img :src="largestUrl" />
     <div>{{ name }}</div>
+
+    <button v-if="!isSelected()" @click="selectThis">+</button>
+    <button v-else @click="deselectThis">-</button>
   </div>
 </template>
 
@@ -11,11 +14,6 @@ export default {
   props: {
     name: String,
     urls: {}
-  },
-  data() {
-    return {
-      selected: Boolean
-    };
   },
   computed: {
     largestUrl() {
@@ -32,11 +30,14 @@ export default {
         let xhr = new XMLHttpRequest();
         xhr.open("GET", this.largestUrl, true);
         xhr.responseType = "blob";
+
         let name = this.name + ".png";
+        let largestUrl = this.largestUrl;
 
         xhr.onload = function() {
           resolve({
             name: name,
+            url: largestUrl,
             blob: this.response
           });
         };
@@ -47,9 +48,19 @@ export default {
         xhr.send();
       });
     },
+    selectThis() {
+      this.getFile().then(
+        function(f) {
+          this.$emit("selectedEmoji", f);
+          this.$nextTick(this.$forceUpdate);
+        }.apply(this)
+      );
+    },
+    deselectThis() {
+      this.getFile().then(f => this.$emit("deselectedEmoji", f));
+    },
     isSelected() {
-      // TODO
-      return true;
+      return window.selectedImages && typeof window.selectedImages[this.largestUrl] !== "undefined";
     }
   }
 };
