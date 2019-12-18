@@ -3,7 +3,7 @@
     <img :src="largestUrl" />
     <div>{{ name }}</div>
 
-    <button v-if="!isSelected()" @click="selectThis">+</button>
+    <button v-if="!isSelected" @click="selectThis">+</button>
     <button v-else @click="deselectThis">-</button>
   </div>
 </template>
@@ -22,6 +22,9 @@ export default {
         .reverse()[0];
 
       return "https:" + this.urls[maxIdx];
+    },
+    isSelected() {
+      return this.$store.getters.isEmojiSelectedByURL(this.largestUrl);
     }
   },
   methods: {
@@ -42,25 +45,18 @@ export default {
           });
         };
 
-        // TODO
-        // xhr.onerror =
-
         xhr.send();
       });
     },
     selectThis() {
-      this.getFile().then(
-        function(f) {
-          this.$emit("selectedEmoji", f);
-          this.$nextTick(this.$forceUpdate);
-        }.apply(this)
-      );
+      this.getFile().then(f => {
+        this.$store.commit("selectEmoji", f);
+      });
     },
     deselectThis() {
-      this.getFile().then(f => this.$emit("deselectedEmoji", f));
-    },
-    isSelected() {
-      return window.selectedImages && typeof window.selectedImages[this.largestUrl] !== "undefined";
+      this.getFile().then(f => {
+        this.$store.commit("deselectEmoji", f);
+      });
     }
   }
 };

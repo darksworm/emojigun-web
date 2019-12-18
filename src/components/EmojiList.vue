@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="haveEmojis">
     <h2 class="title">{{ title }}</h2>
     <template v-for="(emoji, i) in emojis">
       <div class="emoji" v-bind:key="i">
@@ -20,6 +20,11 @@ export default {
     return {
       emojis: {}
     };
+  },
+  computed: {
+    haveEmojis() {
+      return this.emojis && Object.keys(this.emojis).length > 0;
+    }
   },
   props: {
     title: String
