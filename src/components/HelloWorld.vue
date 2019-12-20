@@ -12,17 +12,16 @@
       @not-found="removeChannel(channel)"
     ></channel-emoji-list>
 
-    <button @click="downloadSelections">download</button>
+    <selected-emoji-list></selected-emoji-list>
   </div>
 </template>
 
 <script>
-import JSZip from "jszip";
 import ChannelEmojiList from "./ChannelEmojiList";
-
+import SelectedEmojiList from "./SelectedEmojiList";
 export default {
   name: "HelloWorld",
-  components: { ChannelEmojiList },
+  components: { ChannelEmojiList, SelectedEmojiList },
   data: () => {
     return {
       channelNames: "",
@@ -42,32 +41,6 @@ export default {
     removeChannel(channelName) {
       delete this.requestedChannels[channelName];
       this.$forceUpdate();
-    },
-    downloadSelections() {
-      let zip = new JSZip();
-
-      Promise.all(
-        this.$children.filter(x => x.isSelected()).map(x => x.getFiles())
-      ).then(files => {
-        files.flat().map(file => zip.file(file.name, file.blob));
-
-        zip.generateAsync({ type: "blob" }).then(
-          blob => {
-            let tag = document.createElement("a");
-            let urlCreator = window.URL || window.webkitURL;
-
-            tag.href = urlCreator.createObjectURL(blob);
-            tag.download = "emojis.zip";
-
-            document.body.appendChild(tag);
-            tag.click();
-            document.body.removeChild(tag);
-          },
-          function(err) {
-            console.log(err);
-          }
-        );
-      });
     }
   },
   watch: {

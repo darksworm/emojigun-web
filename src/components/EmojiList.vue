@@ -3,7 +3,7 @@
     <h2 class="title">{{ title }}</h2>
     <template v-for="(emoji, i) in emojis">
       <div class="emoji" v-bind:key="i">
-        <emoji :name="emoji.name" :urls="emoji.urls"></emoji>
+        <emoji :name="emoji.name" :urls="emoji.urls || [emoji.url]"></emoji>
       </div>
     </template>
     <slot></slot>
@@ -27,9 +27,11 @@ export default {
     }
   },
   props: {
-    title: String
+    title: String,
+    emojiList: Object
   },
   mounted() {
+    this.emojis = this.emojiList;
     this.loadEmojis().then(e => (this.emojis = e));
   },
   methods: {
@@ -41,6 +43,11 @@ export default {
     },
     isSelected() {
       return !!this.$children.reduce((acc, x) => acc + x.isSelected(), false);
+    }
+  },
+  watch: {
+    emojiList(val) {
+      this.emojis = val;
     }
   }
 };

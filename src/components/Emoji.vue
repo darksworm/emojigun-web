@@ -21,7 +21,12 @@ export default {
         .sort()
         .reverse()[0];
 
-      return "https:" + this.urls[maxIdx];
+      let url = this.urls[maxIdx];
+      if (url.indexOf("https") === -1) {
+        return "https:" + url;
+      }
+
+      return url;
     },
     isSelected() {
       return this.$store.getters.isEmojiSelectedByURL(this.largestUrl);
