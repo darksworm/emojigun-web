@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view />
+    <selected-emoji-list></selected-emoji-list>
   </div>
 </template>
 
@@ -27,8 +28,9 @@
 }
 </style>
 <script>
+import SelectedEmojiList from "./components/SelectedEmojiList";
 export default {
-  components: {},
+  components: { SelectedEmojiList },
   data() {
     return {};
   },

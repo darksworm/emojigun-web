@@ -1,17 +1,51 @@
 <template>
-  <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div>
+    <label>
+      <input v-model="channelNames" />
+    </label>
+
+    <channel-emoji-list
+      v-for="(channel, i) in requestedChannels"
+      v-bind:key="i"
+      :channel-name="channel"
+      :title="channel + ' emotes'"
+      @not-found="removeChannel(channel)"
+    ></channel-emoji-list>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import ChannelEmojiList from "../components/ChannelEmojiList";
 export default {
-  name: "home",
-  components: {
-    HelloWorld
+  name: "Home",
+  components: { ChannelEmojiList },
+  data: () => {
+    return {
+      channelNames: "",
+      requestedChannels: {}
+    };
+  },
+  methods: {
+    loadChannelEmojis(channelName) {
+      if (typeof this.requestedChannels[channelName] === "string") {
+        return;
+      }
+
+      this.requestedChannels[channelName] = channelName;
+    },
+    removeChannel(channelName) {
+      delete this.requestedChannels[channelName];
+      this.$forceUpdate();
+    }
+  },
+  watch: {
+    channelNames: function(newVal) {
+      newVal
+        .split(",")
+        .map(x => x.trim())
+        .filter(x => !!x)
+        .forEach(this.loadChannelEmojis);
+    }
   }
 };
 </script>
