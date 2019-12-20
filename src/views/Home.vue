@@ -1,7 +1,12 @@
 <template>
   <div>
     <label>
-      <input v-model="channelNames" />
+      <input
+        ref="input"
+        @blur="focusInput()"
+        v-model="channelNames"
+        placeholder="Enter twitch channel or emoji names"
+      />
     </label>
 
     <channel-emoji-list
@@ -25,6 +30,9 @@ export default {
       requestedChannels: {}
     };
   },
+  mounted() {
+    this.focusInput();
+  },
   methods: {
     loadChannelEmojis(channelName) {
       if (typeof this.requestedChannels[channelName] === "string") {
@@ -36,6 +44,9 @@ export default {
     removeChannel(channelName) {
       delete this.requestedChannels[channelName];
       this.$forceUpdate();
+    },
+    focusInput() {
+      this.$refs.input.focus();
     }
   },
   watch: {
@@ -49,3 +60,15 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+@import "../styles/colors.scss";
+
+input {
+  background: transparent;
+  border: none;
+  outline: none;
+
+  color: $color-light;
+}
+</style>

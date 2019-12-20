@@ -6,12 +6,18 @@
 </template>
 
 <style lang="scss">
+@import "styles/global";
+
 #app {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  color: $color-light;
+
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 
 #nav {
