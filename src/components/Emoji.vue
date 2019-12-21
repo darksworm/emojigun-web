@@ -33,35 +33,33 @@ export default {
     }
   },
   methods: {
+    getEmoji() {
+      return {
+        name: this.name,
+        url: this.largestUrl
+      };
+    },
     getFile() {
       return new Promise(resolve => {
+        let emoji = this.getEmoji();
+
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", this.largestUrl, true);
+        xhr.open("GET", emoji.url, true);
         xhr.responseType = "blob";
 
-        let name = this.name + ".png";
-        let largestUrl = this.largestUrl;
-
         xhr.onload = function() {
-          resolve({
-            name: name,
-            url: largestUrl,
-            blob: this.response
-          });
+          emoji.blob = this.response;
+          resolve(emoji);
         };
 
         xhr.send();
       });
     },
     selectThis() {
-      this.getFile().then(f => {
-        this.$store.commit("selectEmoji", f);
-      });
+      this.$store.commit("selectEmoji", this.getEmoji());
     },
     deselectThis() {
-      this.getFile().then(f => {
-        this.$store.commit("deselectEmoji", f);
-      });
+      this.$store.commit("deselectEmoji", this.getEmoji());
     }
   }
 };
