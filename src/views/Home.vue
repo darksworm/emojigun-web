@@ -28,14 +28,10 @@ export default {
         )
         .then(function(resp) {
           let files = [];
-          let promises = [];
+          let promises = {};
           let emotePromises = [];
 
           for (let emote of resp.body.ffzEmotes) {
-            if (emote.id == 326664) {
-              continue;
-            }
-
             let promise = this.$http
               .get('https://api.frankerfacez.com/v1/emote/' + emote.id)
               .then(function(loadedEmote) {
@@ -53,12 +49,15 @@ export default {
                     files.push(file);
                   });
                 emotePromises.push(emotePromise);
+              }, function(data) {
+                console.log(data);
+                delete promises[emote.id];
               });
 
-            promises.push(promise);
+            promises[emote.id] = promise;
           }
 
-          Promise.all(promises).then(function() {
+          Promise.all(Object.values(promises)).then(function() {
             Promise.all(emotePromises).then(function() {
               downloadZipOfFiles(files);
             });
