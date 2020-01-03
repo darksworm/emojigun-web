@@ -14,7 +14,7 @@
 <script>
 import Emoji from '../components/Emoji';
 import Vue from 'vue';
-import JSZip from "jszip";
+import downloadZipOfFiles from '../mixins/downloader';
 
 export default {
   name: 'Home',
@@ -60,25 +60,7 @@ export default {
 
           Promise.all(promises).then(function() {
             Promise.all(emotePromises).then(function() {
-              let zip = new JSZip();
-              files.flat().map(file => zip.file(file.name, file.blob));
-
-              zip.generateAsync({type: 'blob'}).then(
-                blob => {
-                  let tag = document.createElement('a');
-                  let urlCreator = window.URL || window.webkitURL;
-
-                  tag.href = urlCreator.createObjectURL(blob);
-                  tag.download = 'emojis.zip';
-
-                  document.body.appendChild(tag);
-                  tag.click();
-                  document.body.removeChild(tag);
-                },
-                function(err) {
-                  console.log(err);
-                },
-              );
+              downloadZipOfFiles(files);
             });
           });
         });

@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import JSZip from "jszip";
 import EmojiList from "./EmojiList";
+import downloadZipOfFiles from "../mixins/downloader";
 
 export default {
   name: "SelectedEmojiList",
@@ -23,27 +23,8 @@ export default {
   },
   methods: {
     download() {
-      let zip = new JSZip();
-
       this.$refs.list.getFiles().then(files => {
-        files.flat().map(file => zip.file(file.name, file.blob));
-
-        zip.generateAsync({ type: "blob" }).then(
-          blob => {
-            let tag = document.createElement("a");
-            let urlCreator = window.URL || window.webkitURL;
-
-            tag.href = urlCreator.createObjectURL(blob);
-            tag.download = "emojis.zip";
-
-            document.body.appendChild(tag);
-            tag.click();
-            document.body.removeChild(tag);
-          },
-          function(err) {
-            console.log(err);
-          }
-        );
+        downloadZipOfFiles(files);
       });
     }
   }

@@ -10,10 +10,10 @@
 
 <script>
 export default {
-  name: "Emoji",
+  name: 'Emoji',
   props: {
     name: String,
-    urls: {}
+    urls: {},
   },
   computed: {
     largestUrl() {
@@ -22,21 +22,28 @@ export default {
         .reverse()[0];
 
       let url = this.urls[maxIdx];
-      if (url.indexOf("https") === -1) {
-        return "https:" + url;
+      if (url.indexOf('https') === -1) {
+        return 'https:' + url;
       }
 
       return url;
     },
     isSelected() {
       return this.$store.getters.isEmojiSelectedByURL(this.largestUrl);
-    }
+    },
   },
   methods: {
     getEmoji() {
+      let urlTextAfterLastDot = this.largestUrl.split('.').slice(-1);
+      let filename = this.name;
+      if (urlTextAfterLastDot !== this.largestUrl) {
+        filename += '.' + urlTextAfterLastDot;
+      }
+
       return {
         name: this.name,
-        url: this.largestUrl
+        filename: filename,
+        url: this.largestUrl,
       };
     },
     getFile() {
@@ -44,8 +51,8 @@ export default {
         let emoji = this.getEmoji();
 
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", emoji.url, true);
-        xhr.responseType = "blob";
+        xhr.open('GET', emoji.url, true);
+        xhr.responseType = 'blob';
 
         xhr.onload = function() {
           emoji.blob = this.response;
@@ -56,12 +63,12 @@ export default {
       });
     },
     selectThis() {
-      this.$store.commit("selectEmoji", this.getEmoji());
+      this.$store.commit('selectEmoji', this.getEmoji());
     },
     deselectThis() {
-      this.$store.commit("deselectEmoji", this.getEmoji());
-    }
-  }
+      this.$store.commit('deselectEmoji', this.getEmoji());
+    },
+  },
 };
 </script>
 
