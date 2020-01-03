@@ -34,25 +34,28 @@ export default {
           for (let emote of resp.body.ffzEmotes) {
             let promise = this.$http
               .get('https://api.frankerfacez.com/v1/emote/' + emote.id)
-              .then(function(loadedEmote) {
-                let EmojiComponentClass = Vue.extend(Emoji);
-                let emojiComponent = new EmojiComponentClass({
-                  propsData: {
-                    name: loadedEmote.body.emote.name,
-                    urls: loadedEmote.body.emote.urls,
-                  },
-                });
-
-                let emotePromise = emojiComponent
-                  .getFile()
-                  .then(function(file) {
-                    files.push(file);
+              .then(
+                function(loadedEmote) {
+                  let EmojiComponentClass = Vue.extend(Emoji);
+                  let emojiComponent = new EmojiComponentClass({
+                    propsData: {
+                      name: loadedEmote.body.emote.name,
+                      urls: loadedEmote.body.emote.urls,
+                    },
                   });
-                emotePromises.push(emotePromise);
-              }, function(data) {
-                console.log(data);
-                delete promises[emote.id];
-              });
+
+                  let emotePromise = emojiComponent
+                    .getFile()
+                    .then(function(file) {
+                      files.push(file);
+                    });
+                  emotePromises.push(emotePromise);
+                },
+                function() {
+                  // if a request fails there is not much we can do
+                  delete promises[emote.id];
+                },
+              );
 
             promises[emote.id] = promise;
           }
