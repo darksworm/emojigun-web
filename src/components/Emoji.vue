@@ -34,10 +34,10 @@ export default {
   },
   methods: {
     getEmoji() {
-      let urlTextAfterLastDot = this.largestUrl.split('.').slice(-1);
+      let urlTextAfterLastDot = this.largestUrl.split('.').slice(-1)[0];
       let filename = this.name;
       if (urlTextAfterLastDot !== this.largestUrl) {
-        filename += '.' + urlTextAfterLastDot;
+        filename += '.' + urlTextAfterLastDot.toLowerCase();
       }
 
       return {
