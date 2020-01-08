@@ -3,17 +3,12 @@
     <input
       ref="input"
       @blur="focusInput()"
-      v-model="channelNames"
-      placeholder="Enter twitch channel or emoji names"
+      v-model="searchValue"
+      placeholder="search"
     />
 
-    <channel-emoji-list
-      v-for="(channel, i) in requestedChannels"
-      v-bind:key="i"
-      :channel-name="channel"
-      :title="channel + ' emotes'"
-      @not-found="removeChannel(channel)"
-    ></channel-emoji-list>
+    <EmojiList :emojiList="emojiList" />
+
     <router-link to="/">
       <button class="back-button">Back</button>
     </router-link>
@@ -21,42 +16,48 @@
 </template>
 
 <script>
-import ChannelEmojiList from '../components/ChannelEmojiList';
+import EmojiList from '../components/EmojiList';
+
 export default {
   name: 'Custom',
-  components: {ChannelEmojiList},
+  components: {EmojiList},
   data: () => {
     return {
-      channelNames: '',
+      searchValue: '',
       requestedChannels: {},
+      emojiList: [],
     };
   },
   mounted() {
     this.focusInput();
+    this.loadEmojisWithFilter('');
   },
   methods: {
-    loadChannelEmojis(channelName) {
-      if (typeof this.requestedChannels[channelName] === 'string') {
-        return;
+    loadEmojisWithFilter(filter) {
+      let url =
+        'https://api.frankerfacez.com/v1/emoticons?sort=count&per_page=100';
+      if (filter) {
+        url = url + '&q=' + filter;
       }
 
-      this.requestedChannels[channelName] = channelName;
-    },
-    removeChannel(channelName) {
-      delete this.requestedChannels[channelName];
-      this.$forceUpdate();
+      return this.$http
+        .get(url)
+        .then(function(response) {
+          this.emojiList = response.body.emoticons.map(x => {
+            return {name: x.name, urls: x.urls};
+          });
+        })
+        .catch(() => {
+          this.$emit('not-found', this.channelName);
+        });
     },
     focusInput() {
       this.$refs.input.focus();
     },
   },
   watch: {
-    channelNames: function(newVal) {
-      newVal
-        .split(',')
-        .map(x => x.trim())
-        .filter(x => !!x)
-        .forEach(this.loadChannelEmojis);
+    searchValue: function(newVal) {
+      this.loadEmojisWithFilter(newVal);
     },
   },
 };

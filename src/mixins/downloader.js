@@ -1,6 +1,7 @@
 import JSZip from "jszip";
 
-function downloadZipOfFiles(files) {
+function downloadZipOfFiles(files, zipname) {
+  zipname = zipname || 'emojis';
   let zip = new JSZip();
   files.flat().map(file => zip.file(file.filename, file.blob));
 
@@ -9,7 +10,7 @@ function downloadZipOfFiles(files) {
     let urlCreator = window.URL || window.webkitURL;
 
     tag.href = urlCreator.createObjectURL(blob);
-    tag.download = 'emojis.zip';
+    tag.download = zipname + '.zip';
 
     document.body.appendChild(tag);
     tag.click();
