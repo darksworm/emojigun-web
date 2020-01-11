@@ -1,6 +1,6 @@
 <template>
   <div id="app" :class="bgClass">
-    <div class="appBg2"></div>
+    <div id="appShadow"></div>
     <router-view />
     <selected-emoji-list></selected-emoji-list>
   </div>
@@ -27,24 +27,25 @@
     height: 100%;
 
     content: '';
-  }
 
-  @for $i from 1 through 6 {
-    &.bg#{$i}:before {
-      background-image: url('../public/background#{$i}.png');
-      background-position: -24px -24px;
-      filter: blur(3px);
-    }
+    background-image: url('../public/background-multi.jpg');
+    background-position: -24px -24px;
+
+    filter: blur(3px);
   }
 }
 
-.appBg2 {
+#appShadow {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255,255,255, 0.2);
+  background: rgba(90, 45, 0, 0.1);
+
+  &.dark {
+    background: rgba(0, 0, 0, 0.65);
+  }
 }
 
 #nav {

@@ -31,6 +31,13 @@ export default {
   mounted() {
     this.focusInput();
     this.loadEmojisWithFilter('');
+
+    let appShadow = document.getElementById('appShadow');
+    appShadow.classList.add('dark');
+  },
+  destroyed() {
+    let appShadow = document.getElementById('appShadow');
+    appShadow.classList.remove('dark');
   },
   methods: {
     loadEmojisWithFilter(filter) {
@@ -67,8 +74,11 @@ export default {
 @import '../styles/colors.scss';
 
 #custom {
+  z-index: 0;
   width: 100%;
+
   text-align: center;
+  align-self: start;
 
   input {
     background: transparent;
@@ -82,6 +92,8 @@ export default {
     margin: 0 auto;
 
     width: auto;
+
+    text-align: center;
   }
 }
 </style>

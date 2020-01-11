@@ -74,7 +74,6 @@ export default {
 
 <style scoped lang="scss">
 img {
-  width: 64px;
-  height: 64px;
+    max-width: 64px;
 }
 </style>
