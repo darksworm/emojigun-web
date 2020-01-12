@@ -7,7 +7,7 @@
       placeholder="search"
     />
 
-    <EmojiList :emojiList="emojiList" />
+    <CustomEmojiList class="emojiList" :emojiList="emojiList" />
 
     <router-link to="/">
       <button class="back-button">Back</button>
@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import EmojiList from '../components/EmojiList';
+import CustomEmojiList from '../components/CustomEmojiList';
 
 export default {
   name: 'Custom',
-  components: {EmojiList},
+  components: {CustomEmojiList},
   data: () => {
     return {
       searchValue: '',
@@ -95,5 +95,6 @@ export default {
 
     text-align: center;
   }
+
 }
 </style>

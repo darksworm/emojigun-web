@@ -2,7 +2,7 @@
   <div v-if="haveEmojis">
     <h2 class="title">{{ title }}</h2>
     <template v-for="(emoji, i) in emojis">
-      <div class="emoji" v-bind:key="i">
+      <div class="emojiContainer" v-bind:key="i">
         <emoji :name="emoji.name" :urls="emoji.urls || [emoji.url]"></emoji>
       </div>
     </template>
@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style scoped>
-.emoji {
+.emojiContainer {
   display: inline-block;
 }
 </style>

@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <img :src="largestUrl" />
-    <div>{{ name }}</div>
+  <div class="emoji" :class="{selected: isSelected}">
+    <div>
+      <img :src="largestUrl" />
+      <div class="title">{{ name }}</div>
 
-    <button v-if="!isSelected" @click="selectThis">+</button>
-    <button v-else @click="deselectThis">-</button>
+      <button v-if="!isSelected" @click="selectThis">+</button>
+      <button v-else @click="deselectThis">-</button>
+    </div>
   </div>
 </template>
 
@@ -74,6 +76,6 @@ export default {
 
 <style scoped lang="scss">
 img {
-    max-width: 64px;
+  max-width: 64px;
 }
 </style>

@@ -21,7 +21,7 @@
   text-align: center;
 
   &:before {
-    position: absolute;
+    position: fixed;
 
     width: 100%;
     height: 100%;
@@ -30,13 +30,14 @@
 
     background-image: url('../public/background-multi.jpg');
     background-position: -24px -24px;
+    background-repeat: repeat;
 
     filter: blur(3px);
   }
 }
 
 #appShadow {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
