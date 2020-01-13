@@ -28,7 +28,7 @@ export default {
   },
   props: {
     title: String,
-    emojiList: Object
+    emojiList: Array
   },
   mounted() {
     this.emojis = this.emojiList;

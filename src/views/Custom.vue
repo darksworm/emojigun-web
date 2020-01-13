@@ -1,13 +1,8 @@
 <template>
   <div id="custom">
-    <input
-      ref="input"
-      @blur="focusInput()"
-      v-model="searchValue"
-      placeholder="search"
-    />
+    <input ref="input" v-model="searchValue" placeholder="search" />
 
-    <CustomEmojiList class="emojiList" :emojiList="emojiList" />
+    <CustomEmojiList class="emojiList" :emojiList="Object.values(emojiList)" />
 
     <router-link to="/">
       <button class="back-button">Back</button>
@@ -24,8 +19,11 @@ export default {
   data: () => {
     return {
       searchValue: '',
+      nextPageURL: '',
       requestedChannels: {},
-      emojiList: [],
+      emojiList: {},
+      searchTimeout: null,
+      loadingNextPage: false,
     };
   },
   mounted() {
@@ -34,12 +32,50 @@ export default {
 
     let appShadow = document.getElementById('appShadow');
     appShadow.classList.add('dark');
+
+    document.addEventListener('scroll', this.onScroll);
   },
   destroyed() {
     let appShadow = document.getElementById('appShadow');
     appShadow.classList.remove('dark');
+
+    document.removeEventListener('scroll', this.onScroll);
   },
   methods: {
+    onScroll() {
+      if (
+        this.getDistFromBottom() < 400 &&
+        !this.loadingNextPage &&
+        this.nextPageURL
+      ) {
+        this.loadingNextPage = true;
+
+        this.$http.get(this.nextPageURL).then(
+          function(response) {
+            for (let emoticon of response.body.emoticons) {
+              if (typeof this.emojiList[emoticon.name] === 'undefined') {
+                this.emojiList[emoticon.name] = {
+                  name: emoticon.name,
+                  urls: emoticon.urls,
+                };
+              }
+            }
+
+            this.nextPageURL = response.body._links.next;
+            this.loadingNextPage = false;
+
+            this.$forceUpdate();
+          }.bind(this),
+        );
+      }
+    },
+    getDistFromBottom() {
+      var scrollPosition = window.pageYOffset;
+      var windowSize = window.innerHeight;
+      var bodyHeight = document.getElementById('custom').offsetHeight;
+
+      return Math.max(bodyHeight - (scrollPosition + windowSize), 0);
+    },
     loadEmojisWithFilter(filter) {
       let url =
         'https://api.frankerfacez.com/v1/emoticons?sort=count&per_page=100';
@@ -50,9 +86,17 @@ export default {
       return this.$http
         .get(url)
         .then(function(response) {
-          this.emojiList = response.body.emoticons.map(x => {
-            return {name: x.name, urls: x.urls};
-          });
+          for (let emoticon of response.body.emoticons) {
+            if (typeof this.emojiList[emoticon.name] === 'undefined') {
+              this.emojiList[emoticon.name] = {
+                name: emoticon.name,
+                urls: emoticon.urls,
+              };
+            }
+          }
+
+          this.nextPageURL = response.body._links.next;
+          this.$forceUpdate();
         })
         .catch(() => {
           this.$emit('not-found', this.channelName);
@@ -64,7 +108,15 @@ export default {
   },
   watch: {
     searchValue: function(newVal) {
-      this.loadEmojisWithFilter(newVal);
+      if (this.searchTimeout) {
+        clearTimeout(this.searchTimeout);
+      }
+      this.searchTimeout = setTimeout(
+        function() {
+          this.loadEmojisWithFilter(newVal);
+        }.bind(this),
+        600,
+      );
     },
   },
 };
@@ -95,6 +147,5 @@ export default {
 
     text-align: center;
   }
-
 }
 </style>
