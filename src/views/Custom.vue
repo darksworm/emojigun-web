@@ -4,9 +4,20 @@
 
     <CustomEmojiList class="emojiList" :emojiList="Object.values(emojiList)" />
 
-    <router-link to="/">
+    <router-link to="/" class="back-button">
       <button class="back-button">Back</button>
     </router-link>
+
+    <b-spinner
+      v-if="loadingNextPage"
+      type="grow"
+      class="spinner"
+      label="Loading..."
+    ></b-spinner>
+
+    <div v-if="!loadingNextPage && Object.values(emojiList).length === 0">
+      Nothing here...
+    </div>
   </div>
 </template>
 
@@ -44,7 +55,7 @@ export default {
   methods: {
     onScroll() {
       if (
-        this.getDistFromBottom() < 400 &&
+        this.getDistFromBottom() < 500 &&
         !this.loadingNextPage &&
         this.nextPageURL
       ) {
@@ -77,6 +88,9 @@ export default {
       return Math.max(bodyHeight - (scrollPosition + windowSize), 0);
     },
     loadEmojisWithFilter(filter) {
+      this.emojiList = [];
+      this.loadingNextPage = true;
+
       let url =
         'https://api.frankerfacez.com/v1/emoticons?sort=count&per_page=100';
       if (filter) {
@@ -96,6 +110,7 @@ export default {
           }
 
           this.nextPageURL = response.body._links.next;
+          this.loadingNextPage = false;
           this.$forceUpdate();
         })
         .catch(() => {
@@ -128,6 +143,9 @@ export default {
 #custom {
   z-index: 0;
   width: 100%;
+  position: relative;
+
+  padding-bottom: 50px;
 
   text-align: center;
   align-self: start;
@@ -146,6 +164,16 @@ export default {
     width: auto;
 
     text-align: center;
+  }
+
+  .back-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+  }
+
+  .spinner {
+    margin-top: 50px;
   }
 }
 </style>

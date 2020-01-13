@@ -1,7 +1,7 @@
 <template>
   <div id="selectedEmojiList">
     <emoji-list
-      :emoji-list="selectedEmojis"
+      :emoji-list="Object.values(selectedEmojis)"
       :title="'Selected emojis'"
       ref="list"
     >
