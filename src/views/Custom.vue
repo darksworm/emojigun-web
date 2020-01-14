@@ -1,32 +1,52 @@
 <template>
-  <div id="custom">
-    <input ref="input" v-model="searchValue" placeholder="search" />
+  <div>
+    <div id="custom-header">
+      <input ref="input" v-model="searchValue" placeholder="search" />
 
-    <CustomEmojiList class="emojiList" :emojiList="Object.values(emojiList)" />
+      <router-link to="/" class="back-button">
+        <button class="back-button">Back</button>
+      </router-link>
 
-    <router-link to="/" class="back-button">
-      <button class="back-button">Back</button>
-    </router-link>
+      <template v-if="selectedEmojiCount">
+        <div class="selectedEmojiCount" v-if="selectedEmojiCount">
+          {{ selectedEmojiCount }} {{ selectedEmojiCountWord }} selected
+        </div>
 
-    <b-spinner
-      v-if="loadingNextPage"
-      type="grow"
-      class="spinner"
-      label="Loading..."
-    ></b-spinner>
-
-    <div v-if="!loadingNextPage && Object.values(emojiList).length === 0">
-      Nothing here...
+        <button class="downloadSelected" @click="downloadSelected">
+          Download selected
+        </button>
+      </template>
     </div>
+
+    <div id="custom">
+      <CustomEmojiList
+        class="emojiList"
+        :emojiList="Object.values(emojiList)"
+      />
+
+      <b-spinner
+        v-if="loadingNextPage"
+        type="grow"
+        class="spinner"
+        label="Loading..."
+      ></b-spinner>
+
+      <div v-if="!loadingNextPage && Object.values(emojiList).length === 0">
+        Nothing here...
+      </div>
+    </div>
+
+    <selected-emoji-list ref="selectedList"></selected-emoji-list>
   </div>
 </template>
 
 <script>
 import CustomEmojiList from '../components/CustomEmojiList';
+import SelectedEmojiList from '../components/SelectedEmojiList';
 
 export default {
   name: 'Custom',
-  components: {CustomEmojiList},
+  components: {CustomEmojiList, SelectedEmojiList},
   data: () => {
     return {
       searchValue: '',
@@ -37,6 +57,14 @@ export default {
       loadingNextPage: false,
     };
   },
+  computed: {
+    selectedEmojiCount() {
+      return Object.values(this.$store.state.selectedEmojis).length;
+    },
+    selectedEmojiCountWord() {
+      return this.selectedEmojiCount == 1 ? 'emoji' : 'emojis';
+    },
+  },
   mounted() {
     this.focusInput();
     this.loadEmojisWithFilter('');
@@ -45,14 +73,23 @@ export default {
     appShadow.classList.add('dark');
 
     document.addEventListener('scroll', this.onScroll);
+
+    let app = document.getElementById('app');
+    app.classList.add('custom');
   },
   destroyed() {
     let appShadow = document.getElementById('appShadow');
     appShadow.classList.remove('dark');
 
     document.removeEventListener('scroll', this.onScroll);
+
+    let app = document.getElementById('app');
+    app.classList.remove('custom');
   },
   methods: {
+    downloadSelected() {
+      this.$refs.selectedList.download();
+    },
     onScroll() {
       if (
         this.getDistFromBottom() < 500 &&
@@ -145,6 +182,7 @@ export default {
   width: 100%;
   position: relative;
 
+  margin-top: 72px;
   padding-bottom: 50px;
 
   text-align: center;
@@ -174,6 +212,27 @@ export default {
 
   .spinner {
     margin-top: 50px;
+  }
+}
+
+#custom-header {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 72px;
+
+  background: rgba(0, 0, 0, 1);
+
+  input {
+    max-width: 500px;
+  }
+
+  * {
+    display: inline-block;
+    margin: 10px 15px;
   }
 }
 </style>

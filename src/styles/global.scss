@@ -15,8 +15,9 @@ html {
   body {
     background: none;
   }
-  
-  body, #app {
+
+  body,
+  #app {
     width: 100%;
     height: 100%;
   }
@@ -25,6 +26,10 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &.custom {
+      display: block;
+    }
   }
 
   input {

@@ -2,7 +2,6 @@
   <div id="app" :class="bgClass">
     <div id="appShadow"></div>
     <router-view />
-    <selected-emoji-list></selected-emoji-list>
   </div>
 </template>
 
@@ -22,6 +21,8 @@
 
   &:before {
     position: fixed;
+    left: 0;
+    top: 0;
 
     width: 100%;
     height: 100%;
@@ -63,9 +64,8 @@
 }
 </style>
 <script>
-import SelectedEmojiList from './components/SelectedEmojiList';
 export default {
-  components: {SelectedEmojiList},
+  components: {},
   data() {
     return {};
   },
