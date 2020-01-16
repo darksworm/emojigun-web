@@ -25,10 +25,13 @@ export default {
   },
   methods: {
     download() {
-      this.$refs.list.getFiles().then(files => {
-        downloadZipOfFiles(files);
+      return this.$refs.list.getFiles().then(files => {
+        return downloadZipOfFiles(files);
       });
     },
+    clear() {
+      this.$store.commit('clearSelection');
+    }
   },
 };
 </script>

@@ -1,11 +1,11 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    selectedEmojis: {}
+    selectedEmojis: {},
   },
   mutations: {
     selectEmoji(state, emoji) {
@@ -13,7 +13,11 @@ export default new Vuex.Store({
     },
     deselectEmoji(state, emoji) {
       Vue.delete(state.selectedEmojis, emoji.url);
-    }
+    },
+    clearSelection(state) {
+      Vue.delete(state, 'selectedEmojis');
+      Vue.set(state, 'selectedEmojis', {});
+    },
   },
   getters: {
     isEmojiSelectedByURL: state => url => {
@@ -24,8 +28,8 @@ export default new Vuex.Store({
     },
     selectedEmojiCount(state) {
       return state.selectedEmojis.length;
-    }
+    },
   },
   actions: {},
-  modules: {}
+  modules: {},
 });

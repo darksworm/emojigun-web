@@ -7,15 +7,19 @@
         <button class="back-button">Back</button>
       </router-link>
 
-      <template v-if="selectedEmojiCount">
-        <div class="selectedEmojiCount" v-if="selectedEmojiCount">
+      <div class="header-right" :class="{active: selectedEmojiCount > 0}">
+        <div class="selectedEmojiCount">
           {{ selectedEmojiCount }} {{ selectedEmojiCountWord }} selected
         </div>
 
-        <button class="downloadSelected" @click="downloadSelected">
+        <button
+          class="downloadSelected"
+          @click="downloadSelected"
+          :disabled="selectedEmojiCount <= 0"
+        >
           Download selected
         </button>
-      </template>
+      </div>
     </div>
 
     <div id="custom">
@@ -37,6 +41,15 @@
     </div>
 
     <selected-emoji-list ref="selectedList"></selected-emoji-list>
+
+    <div class="backToTop" v-if="showBackToTop" @click="goBackToTop"></div>
+
+    <div id="generatingOverlay" v-if="generating">
+      <div>
+        <div class="text">Generating zip...</div>
+        <b-spinner type="grow" class="spinner"></b-spinner>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -55,6 +68,9 @@ export default {
       emojiList: {},
       searchTimeout: null,
       loadingNextPage: false,
+      showBackToTop: false,
+      generating: false,
+      generated: true,
     };
   },
   computed: {
@@ -87,8 +103,19 @@ export default {
     app.classList.remove('custom');
   },
   methods: {
+    goBackToTop() {
+      window.scrollTo(0, 0);
+      this.showBackToTop = false;
+    },
     downloadSelected() {
-      this.$refs.selectedList.download();
+      this.generating = true;
+      this.$refs.selectedList.download().then(
+        function() {
+          this.generating = false;
+          this.generated = true;
+          this.$refs.selectedList.clear();
+        }.bind(this),
+      );
     },
     onScroll() {
       if (
@@ -116,6 +143,8 @@ export default {
           }.bind(this),
         );
       }
+
+      this.showBackToTop = window.pageYOffset > 100; 
     },
     getDistFromBottom() {
       var scrollPosition = window.pageYOffset;
@@ -160,9 +189,12 @@ export default {
   },
   watch: {
     searchValue: function(newVal) {
+      this.showBackToTop = false;
+
       if (this.searchTimeout) {
         clearTimeout(this.searchTimeout);
       }
+
       this.searchTimeout = setTimeout(
         function() {
           this.loadEmojisWithFilter(newVal);
@@ -182,7 +214,6 @@ export default {
   width: 100%;
   position: relative;
 
-  margin-top: 72px;
   padding-bottom: 50px;
 
   text-align: center;
@@ -204,35 +235,89 @@ export default {
     text-align: center;
   }
 
-  .back-button {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-  }
-
   .spinner {
     margin-top: 50px;
   }
 }
 
 #custom-header {
-  z-index: 1;
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: relative;
 
   width: 100%;
   height: 72px;
 
-  background: rgba(0, 0, 0, 1);
+  background: transparent;
 
   input {
     max-width: 500px;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
   }
 
-  * {
-    display: inline-block;
-    margin: 10px 15px;
+  .back-button {
+    float: left;
+  }
+
+  .header-right {
+    float: right;
+  }
+}
+
+.backToTop {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  height: 60px;
+  width: 60px;
+  background: white;
+  border-radius: 60px;
+  z-index: 2;
+
+  &:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 25px solid #0f0f0f;
+    position: fixed;
+    right: 24px;
+    bottom: 40px;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#generatingOverlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+
+  font-size: 36px;
+  font-weight: bold;
+
+  &:before {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    content: '';
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  > div {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>
