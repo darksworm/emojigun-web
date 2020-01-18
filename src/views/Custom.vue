@@ -43,7 +43,6 @@
     <selected-emoji-list ref="selectedList"></selected-emoji-list>
 
     <div class="backToTop" v-if="showBackToTop" @click="goBackToTop"></div>
-
   </div>
 </template>
 
@@ -109,7 +108,7 @@ export default {
 
           setTimeout(
             function() {
-                this.$store.commit('generationEnded');
+              this.$store.commit('generationEnded');
             }.bind(this),
             500,
           );
@@ -135,7 +134,7 @@ export default {
               }
             }
 
-            this.nextPageURL = response.body._links.next;
+            this.applyNextPageURL(response.body._links.next);
             this.loadingNextPage = false;
 
             this.$forceUpdate();
@@ -144,6 +143,15 @@ export default {
       }
 
       this.showBackToTop = window.pageYOffset > 100;
+    },
+    applyNextPageURL(url) {
+      if (typeof url !== 'undefined') {
+        this.nextPageURL = url + '&q=' + this.searchValue;
+        this.hasNextPage = true;
+      } else {
+        this.hasNextPage = false;
+        this.nextPageURL = '';
+      }
     },
     getDistFromBottom() {
       var scrollPosition = window.pageYOffset;
@@ -174,7 +182,7 @@ export default {
             }
           }
 
-          this.nextPageURL = response.body._links.next;
+          this.applyNextPageURL(response.body._links.next);
           this.loadingNextPage = false;
           this.$forceUpdate();
         })
