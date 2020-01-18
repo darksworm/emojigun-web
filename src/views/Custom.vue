@@ -17,7 +17,7 @@
           @click="downloadSelected"
           :disabled="selectedEmojiCount <= 0"
         >
-          Download selected
+          Download zip
         </button>
       </div>
     </div>
@@ -68,6 +68,7 @@ export default {
       emojiList: {},
       searchTimeout: null,
       loadingNextPage: false,
+      hasNextPage: false,
       showBackToTop: false,
       generating: false,
       generated: true,
@@ -109,11 +110,18 @@ export default {
     },
     downloadSelected() {
       this.generating = true;
+
       this.$refs.selectedList.download().then(
         function() {
-          this.generating = false;
-          this.generated = true;
           this.$refs.selectedList.clear();
+
+          setTimeout(
+            function() {
+              this.generating = false;
+              this.generated = true;
+            }.bind(this),
+            500,
+          );
         }.bind(this),
       );
     },
@@ -121,7 +129,7 @@ export default {
       if (
         this.getDistFromBottom() < 500 &&
         !this.loadingNextPage &&
-        this.nextPageURL
+        this.hasNextPage
       ) {
         this.loadingNextPage = true;
 
@@ -144,7 +152,7 @@ export default {
         );
       }
 
-      this.showBackToTop = window.pageYOffset > 100; 
+      this.showBackToTop = window.pageYOffset > 100;
     },
     getDistFromBottom() {
       var scrollPosition = window.pageYOffset;

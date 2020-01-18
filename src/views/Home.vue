@@ -30,7 +30,7 @@ export default {
       let promises = {};
       let emotePromises = [];
 
-      for (let page = 1; page <= 8; page++) {
+      for (let page = 1; page <= 3; page++) {
         let ffzPromise = this.$http
           .get(
             'https://api.frankerfacez.com/v1/emoticons?sort=count&per_page=200&page=' +
@@ -41,7 +41,9 @@ export default {
               let promise = this.getEmojiFile(x.name, x.urls).then(function(
                 file,
               ) {
-                files.push(file);
+                if (file.blob instanceof Blob) {
+                  files.push(file);
+                }
               });
 
               emotePromises.push(promise);
