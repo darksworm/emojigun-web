@@ -2,8 +2,34 @@
   <div id="app" :class="bgClass">
     <div id="appShadow"></div>
     <router-view />
+
+    <div id="generatingOverlay" v-if="isGeneratingZip">
+      <div>
+        <div class="text">Generating zip...</div>
+        <b-spinner type="grow" class="spinner"></b-spinner>
+      </div>
+    </div>
   </div>
 </template>
+
+<script>
+export default {
+  components: {},
+  data() {
+    return {};
+  },
+  computed: {
+    bgClass() {
+      let bg = Math.round(Math.random() * 5) + 1;
+      return 'bg' + bg;
+    },
+    isGeneratingZip() {
+      return this.$store.state.generatingZip;
+    }
+  },
+  mounted() {},
+};
+</script>
 
 <style lang="scss">
 @import 'styles/global';
@@ -46,7 +72,7 @@
   background: rgba(90, 45, 0, 0.35);
 
   &.dark {
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(15, 0, 0, 0.65);
   }
 }
 
@@ -62,19 +88,32 @@
     }
   }
 }
+
+#generatingOverlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+
+  font-size: 36px;
+  font-weight: bold;
+
+  &:before {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    content: '';
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  > div {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 28px;
+  }
+}
 </style>
-<script>
-export default {
-  components: {},
-  data() {
-    return {};
-  },
-  computed: {
-    bgClass() {
-      let bg = Math.round(Math.random() * 5) + 1;
-      return 'bg' + bg;
-    },
-  },
-  mounted() {},
-};
-</script>

@@ -44,12 +44,6 @@
 
     <div class="backToTop" v-if="showBackToTop" @click="goBackToTop"></div>
 
-    <div id="generatingOverlay" v-if="generating">
-      <div>
-        <div class="text">Generating zip...</div>
-        <b-spinner type="grow" class="spinner"></b-spinner>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -70,8 +64,6 @@ export default {
       loadingNextPage: false,
       hasNextPage: false,
       showBackToTop: false,
-      generating: false,
-      generated: true,
     };
   },
   computed: {
@@ -109,7 +101,7 @@ export default {
       this.showBackToTop = false;
     },
     downloadSelected() {
-      this.generating = true;
+      this.$store.commit('generationStarted');
 
       this.$refs.selectedList.download().then(
         function() {
@@ -117,8 +109,7 @@ export default {
 
           setTimeout(
             function() {
-              this.generating = false;
-              this.generated = true;
+                this.$store.commit('generationEnded');
             }.bind(this),
             500,
           );
@@ -299,33 +290,6 @@ export default {
 
   &:hover {
     cursor: pointer;
-  }
-}
-
-#generatingOverlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-
-  font-size: 36px;
-  font-weight: bold;
-
-  &:before {
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-    content: '';
-    background: rgba(0, 0, 0, 0.8);
-  }
-
-  > div {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 }
 </style>

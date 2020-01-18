@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     selectedEmojis: {},
+    generatingZip: false,
   },
   mutations: {
     selectEmoji(state, emoji) {
@@ -18,6 +19,12 @@ export default new Vuex.Store({
       Vue.delete(state, 'selectedEmojis');
       Vue.set(state, 'selectedEmojis', {});
     },
+    generationStarted(state) {
+      Vue.set(state, 'generatingZip', true);
+    },
+    generationEnded(state) {
+      Vue.set(state, 'generatingZip', false);
+    }
   },
   getters: {
     isEmojiSelectedByURL: state => url => {
@@ -29,6 +36,9 @@ export default new Vuex.Store({
     selectedEmojiCount(state) {
       return state.selectedEmojis.length;
     },
+    generatingZip(state) {
+      return state.generatingZip;
+    }
   },
   actions: {},
   modules: {},

@@ -30,6 +30,11 @@ export default {
       let promises = {};
       let emotePromises = [];
 
+      this.$store.commit('generationStarted');
+      let getStore = function() {
+        return this.$store;
+      }.bind(this);
+
       for (let page = 1; page <= 3; page++) {
         let ffzPromise = this.$http
           .get(
@@ -86,7 +91,9 @@ export default {
 
           Promise.all(Object.values(promises)).then(function() {
             Promise.all(emotePromises).then(function() {
-              downloadZipOfFiles(files, 'top-emojis');
+              downloadZipOfFiles(files, 'top-emojis').then(function() {
+                getStore().commit('generationEnded');
+              });
             });
           });
         });
