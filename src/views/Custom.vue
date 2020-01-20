@@ -3,9 +3,11 @@
     <div id="custom-header">
       <input ref="input" v-model="searchValue" placeholder="search" />
 
-      <router-link to="/" class="back-button">
-        <button class="back-button">Back</button>
-      </router-link>
+      <div class="back-button">
+        <DownloadTopEmojisButton>
+          <button>Download top emojis</button>
+        </DownloadTopEmojisButton>
+      </div>
 
       <div class="header-right" :class="{active: selectedEmojiCount > 0}">
         <div class="selectedEmojiCount">
@@ -49,10 +51,11 @@
 <script>
 import CustomEmojiList from '../components/CustomEmojiList';
 import SelectedEmojiList from '../components/SelectedEmojiList';
+import DownloadTopEmojisButton from '../components/DownloadTopEmojisButton';
 
 export default {
   name: 'Custom',
-  components: {CustomEmojiList, SelectedEmojiList},
+  components: {CustomEmojiList, SelectedEmojiList, DownloadTopEmojisButton},
   data: () => {
     return {
       searchValue: '',
