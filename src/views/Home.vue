@@ -1,15 +1,13 @@
 <template>
   <div id="home">
     <DownloadTopEmojisButton>
-      <button
-        class="top-emoji-pack bttn-slant bttn-lg bttn-success bttn-primary"
-      >
+      <button class="top-emoji-pack">
         Download top emoji pack
       </button>
     </DownloadTopEmojisButton>
 
     <router-link to="custom" class="custom-pack">
-      <button class="custom-emoji-pack bttn-slant bttn-lg bttn-secondary">
+      <button class="custom-emoji-pack">
         Create custom emoji pack
       </button>
     </router-link>
@@ -30,15 +28,27 @@ export default {
 @import '../styles/colors.scss';
 
 #home {
+  z-index: 0;
   width: 100%;
   text-align: center;
 
   .custom-emoji-pack {
-    margin-left: 24px;
+    margin-left: 36px;
+  }
+
+  .top-emoji-pack {
+    background: $color-complementary-1;
+  }
+
+  .custom-emoji-pack {
+    background: $color-complementary-3;
+    color: $color-complementary-1;
   }
 
   button {
-    padding: 16px 30px;
+    padding: 20px 34px;
+    text-transform: uppercase;
+    font-size: 26px;
   }
 }
 </style>

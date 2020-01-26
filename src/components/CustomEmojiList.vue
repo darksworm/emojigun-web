@@ -64,10 +64,10 @@ $emoji-size: 128px;
     }
 
     &:hover {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba($color-light, 0.3);
 
       &.selected {
-        background: rgba($color-accent-bright, 0.8);
+        background: rgba($color-light, 0.6);
       }
 
       button {
@@ -76,7 +76,7 @@ $emoji-size: 128px;
     }
 
     &.selected {
-      background: rgba($color-accent-bright, 0.6);
+      background: rgba($color-light, 0.4);
     }
   }
 }

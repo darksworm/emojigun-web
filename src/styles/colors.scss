@@ -1,5 +1,10 @@
-$color-darkest: #0b0C10;
-$color-dark: #1F2833;
-$color-light: #C5C6C7;
-$color-accent-bright: #66FCF1;
-$color-accent-secondary: #45A29E;
+$color-base: #826349;
+
+$color-darkest: $color-base;
+$color-light: #FFF6E8;
+$color-accent-bright: #CE7E2C;
+$color-dark: #402E32;
+
+$color-complementary-1: #7F9AB3;
+$color-complementary-2: #FFF6E8;
+$color-complementary-3: #E8F4FF;

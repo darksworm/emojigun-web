@@ -3,13 +3,20 @@
     <div id="custom-header">
       <input ref="input" v-model="searchValue" placeholder="search" />
 
-      <div class="back-button">
+      <div
+        class="back-button"
+        :style="{marginLeft: headerHorizontalMargin + 'px'}"
+      >
         <DownloadTopEmojisButton>
           <button>Download top emojis</button>
         </DownloadTopEmojisButton>
       </div>
 
-      <div class="header-right" :class="{active: selectedEmojiCount > 0}">
+      <div
+        class="header-right"
+        :class="{active: selectedEmojiCount > 0}"
+        :style="{marginRight: headerHorizontalMargin + 'px'}"
+      >
         <div class="selectedEmojiCount">
           {{ selectedEmojiCount }} {{ selectedEmojiCountWord }} selected
         </div>
@@ -66,6 +73,7 @@ export default {
       loadingNextPage: false,
       hasNextPage: false,
       showBackToTop: false,
+      headerHorizontalMargin: 56.5,
     };
   },
   computed: {
@@ -84,15 +92,19 @@ export default {
     appShadow.classList.add('dark');
 
     document.addEventListener('scroll', this.onScroll);
+    document.addEventListener('onresize', this.onResize);
 
     let app = document.getElementById('app');
     app.classList.add('custom');
+
+    this.onScroll();
   },
   destroyed() {
     let appShadow = document.getElementById('appShadow');
     appShadow.classList.remove('dark');
 
     document.removeEventListener('scroll', this.onScroll);
+    document.removeEventListener('resize', this.onResize);
 
     let app = document.getElementById('app');
     app.classList.remove('custom');
@@ -117,6 +129,16 @@ export default {
           );
         }.bind(this),
       );
+    },
+    onResize() {
+      let w = document.getElementById('custom').offsetWidth - 15;
+      let padding = (w - Math.floor(w / 128) * 128) / 2;
+
+      if (padding == 0) {
+        this.headerHorizontalMargin = 20;
+      } else {
+        this.headerHorizontalMargin = padding;
+      }
     },
     onScroll() {
       if (
@@ -187,6 +209,7 @@ export default {
 
           this.applyNextPageURL(response.body._links.next);
           this.loadingNextPage = false;
+          this.onResize();
           this.$forceUpdate();
         })
         .catch(() => {
@@ -258,6 +281,8 @@ export default {
 
   background: transparent;
 
+  display: flex;
+
   input {
     max-width: 500px;
     text-align: center;
@@ -269,11 +294,16 @@ export default {
   }
 
   .back-button {
-    float: left;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 20px;
   }
 
   .header-right {
-    float: right;
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
   }
 }
 

@@ -33,7 +33,6 @@ export default {
 
 <style lang="scss">
 @import 'styles/global';
-@import '../public/bttn.min.css';
 
 #app {
   width: 100%;
