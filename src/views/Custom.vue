@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     goBackToTop() {
-      window.scrollTo(0, 0);
+      window.scrollTo({top: 0, behavior: 'smooth'});
       this.showBackToTop = false;
     },
     downloadSelected() {
