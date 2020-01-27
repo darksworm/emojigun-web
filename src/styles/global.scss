@@ -11,7 +11,7 @@ html {
   width: 100%;
   height: 100%;
 
-  background: $color-darkest;
+  background: darken($color-complementary-1, 50%);
   color: $color-light;
 
   * {
