@@ -210,6 +210,7 @@ export default {
           this.applyNextPageURL(response.body._links.next);
           this.loadingNextPage = false;
           this.onResize();
+          this.onScroll();
           this.$forceUpdate();
         })
         .catch(() => {
