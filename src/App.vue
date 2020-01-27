@@ -106,7 +106,7 @@ export default {
     width: 100%;
     height: 100%;
     content: '';
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(darken($color-complementary-1, 80%), 0.8);
   }
 
   > div {
