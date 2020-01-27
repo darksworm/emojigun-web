@@ -43,15 +43,16 @@ html {
   }
 
   button {
-    background: $color-accent-bright;
     color: $color-light;
     padding: 8px 16px;
     border-radius: 8px;
     border: none;
 
+    background: $color-complementary-1;
+
     &:hover {
       cursor: pointer;
-      background: lighten($color-accent-bright, 15%);
+      background: lighten($color-complementary-1, 3%);
     }
   }
 }

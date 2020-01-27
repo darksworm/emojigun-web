@@ -66,9 +66,11 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
+
   width: 100%;
   height: 100%;
-  background: rgba(90, 45, 0, 0.35);
+
+  background: rgba(15, 0, 0, 0.35);
 
   &.dark {
     background: rgba(15, 0, 0, 0.65);

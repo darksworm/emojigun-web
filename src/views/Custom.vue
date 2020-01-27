@@ -252,25 +252,11 @@ export default {
   text-align: center;
   align-self: start;
 
-  input {
-    background: transparent;
-    border: none;
-    outline: none;
-
-    color: $color-light;
-    font-size: 30px;
-    font-size: 3.5vw;
-    display: block;
-    margin: 0 auto;
-
-    width: auto;
-
-    text-align: center;
-  }
-
   .spinner {
     margin-top: 50px;
   }
+
+  color: rgba($color-light, 0.8);
 }
 
 #custom-header {
@@ -278,8 +264,6 @@ export default {
 
   width: 100%;
   height: 72px;
-
-  background: transparent;
 
   display: flex;
 
@@ -291,6 +275,15 @@ export default {
     top: 50%;
 
     transform: translate(-50%, -50%);
+
+    border: none;
+    outline: none;
+    border-radius: 8px;
+
+    padding: 6px 12px;
+
+    background: rgba($color-light, 0.9);
+    color: $color-dark;
   }
 
   .back-button {
@@ -304,16 +297,28 @@ export default {
     margin-right: 20px;
     margin-top: auto;
     margin-bottom: auto;
+
+    .downloadSelected {
+      &:disabled {
+        background: darken(grey, 5%);
+
+        &:hover {
+          cursor: unset;
+          background: darken(grey, 5%);
+        }
+      }
+    }
   }
 }
 
 .backToTop {
+  opacity: 0.8;
   position: fixed;
   right: 20px;
   bottom: 20px;
   height: 60px;
   width: 60px;
-  background: white;
+  background: $color-light;
   border-radius: 60px;
   z-index: 2;
 
@@ -323,7 +328,7 @@ export default {
     height: 0;
     border-left: 25px solid transparent;
     border-right: 25px solid transparent;
-    border-bottom: 25px solid #0f0f0f;
+    border-bottom: 25px solid $color-dark;
     position: fixed;
     right: 24px;
     bottom: 40px;

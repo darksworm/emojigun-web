@@ -38,11 +38,19 @@ export default {
 
   .top-emoji-pack {
     background: $color-complementary-1;
+
+    &:hover {
+        background: lighten($color-complementary-1, 3%);
+    }
   }
 
   .custom-emoji-pack {
     background: $color-complementary-3;
     color: $color-complementary-1;
+
+    &:hover {
+        background: lighten($color-complementary-3, 3%);
+    }
   }
 
   button {
