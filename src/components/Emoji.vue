@@ -1,5 +1,5 @@
 <template>
-  <div class="emoji" :class="{selected: isSelected}">
+  <div class="emoji" :class="{ selected: isSelected }">
     <div>
       <img :src="largestUrl" />
       <div class="title">{{ name }}</div>
@@ -12,10 +12,10 @@
 
 <script>
 export default {
-  name: 'Emoji',
+  name: "Emoji",
   props: {
     name: String,
-    urls: {},
+    urls: {}
   },
   computed: {
     largestUrl() {
@@ -24,28 +24,28 @@ export default {
         .reverse()[0];
 
       let url = this.urls[maxIdx];
-      if (url.indexOf('https') === -1) {
-        return 'https:' + url;
+      if (url.indexOf("https") === -1) {
+        return "https:" + url;
       }
 
       return url;
     },
     isSelected() {
       return this.$store.getters.isEmojiSelectedByURL(this.largestUrl);
-    },
+    }
   },
   methods: {
     getEmoji() {
-      let urlTextAfterLastDot = this.largestUrl.split('.').slice(-1)[0];
+      let urlTextAfterLastDot = this.largestUrl.split(".").slice(-1)[0];
       let filename = this.name;
       if (urlTextAfterLastDot !== this.largestUrl) {
-        filename += '.' + urlTextAfterLastDot.toLowerCase();
+        filename += "." + urlTextAfterLastDot.toLowerCase();
       }
 
       return {
         name: this.name,
         filename: filename,
-        url: this.largestUrl,
+        url: this.largestUrl
       };
     },
     getFile() {
@@ -53,8 +53,8 @@ export default {
         let emoji = this.getEmoji();
 
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', emoji.url, true);
-        xhr.responseType = 'blob';
+        xhr.open("GET", emoji.url, true);
+        xhr.responseType = "blob";
 
         xhr.onload = function() {
           emoji.blob = this.response;
@@ -65,12 +65,12 @@ export default {
       });
     },
     selectThis() {
-      this.$store.commit('selectEmoji', this.getEmoji());
+      this.$store.commit("selectEmoji", this.getEmoji());
     },
     deselectThis() {
-      this.$store.commit('deselectEmoji', this.getEmoji());
-    },
-  },
+      this.$store.commit("deselectEmoji", this.getEmoji());
+    }
+  }
 };
 </script>
 

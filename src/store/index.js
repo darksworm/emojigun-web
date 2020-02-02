@@ -1,12 +1,12 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     selectedEmojis: {},
-    generatingZip: false,
+    generatingZip: false
   },
   mutations: {
     selectEmoji(state, emoji) {
@@ -16,14 +16,14 @@ export default new Vuex.Store({
       Vue.delete(state.selectedEmojis, emoji.url);
     },
     clearSelection(state) {
-      Vue.delete(state, 'selectedEmojis');
-      Vue.set(state, 'selectedEmojis', {});
+      Vue.delete(state, "selectedEmojis");
+      Vue.set(state, "selectedEmojis", {});
     },
     generationStarted(state) {
-      Vue.set(state, 'generatingZip', true);
+      Vue.set(state, "generatingZip", true);
     },
     generationEnded(state) {
-      Vue.set(state, 'generatingZip', false);
+      Vue.set(state, "generatingZip", false);
     }
   },
   getters: {
@@ -41,5 +41,5 @@ export default new Vuex.Store({
     }
   },
   actions: {},
-  modules: {},
+  modules: {}
 });

@@ -11,17 +11,17 @@
 </template>
 
 <script>
-import EmojiList from './EmojiList';
-import downloadZipOfFiles from '../mixins/downloader';
+import EmojiList from "./EmojiList";
+import downloadZipOfFiles from "../mixins/downloader";
 
 export default {
-  name: 'SelectedEmojiList',
+  name: "SelectedEmojiList",
   extends: EmojiList,
-  components: {EmojiList},
+  components: { EmojiList },
   computed: {
     selectedEmojis() {
       return this.$store.state.selectedEmojis;
-    },
+    }
   },
   methods: {
     download() {
@@ -30,9 +30,9 @@ export default {
       });
     },
     clear() {
-      this.$store.commit('clearSelection');
+      this.$store.commit("clearSelection");
     }
-  },
+  }
 };
 </script>
 

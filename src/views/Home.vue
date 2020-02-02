@@ -15,17 +15,17 @@
 </template>
 
 <script>
-import DownloadTopEmojisButton from '../components/DownloadTopEmojisButton';
+import DownloadTopEmojisButton from "../components/DownloadTopEmojisButton";
 
 export default {
-  name: 'Home',
+  name: "Home",
   mounted() {},
-  components: {DownloadTopEmojisButton},
+  components: { DownloadTopEmojisButton }
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/colors.scss';
+@import "../styles/colors.scss";
 #home {
   z-index: 0;
   width: 100%;
