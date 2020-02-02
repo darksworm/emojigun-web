@@ -5,16 +5,18 @@
 
     <div id="generatingOverlay" v-if="isGeneratingZip">
       <div>
-        <div class="text">Generating zip...</div>
-        <b-spinner type="grow" class="spinner"></b-spinner>
+        <div class="text">Generating zip</div>
+        <Loader></Loader>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Loader from './components/Loader';
+
 export default {
-  components: {},
+  components: { Loader },
   data() {
     return {};
   },
@@ -115,6 +117,10 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     margin-top: 28px;
+  }
+
+  .text {
+    margin-bottom: 12px;
   }
 }
 </style>

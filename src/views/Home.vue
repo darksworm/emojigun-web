@@ -24,9 +24,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../styles/colors.scss';
-
 #home {
   z-index: 0;
   width: 100%;
@@ -40,7 +39,7 @@ export default {
     background: $color-complementary-1;
 
     &:hover {
-        background: lighten($color-complementary-1, 3%);
+      background: lighten($color-complementary-1, 3%);
     }
   }
 
@@ -49,7 +48,7 @@ export default {
     color: $color-complementary-1;
 
     &:hover {
-        background: lighten($color-complementary-3, 3%);
+      background: lighten($color-complementary-3, 3%);
     }
   }
 

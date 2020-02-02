@@ -37,12 +37,7 @@
         :emojiList="Object.values(emojiList)"
       />
 
-      <b-spinner
-        v-if="loadingNextPage"
-        type="grow"
-        class="spinner"
-        label="Loading..."
-      ></b-spinner>
+      <Loader v-if="loadingNextPage"></Loader>
 
       <div v-if="!loadingNextPage && Object.values(emojiList).length === 0">
         Nothing here...
@@ -59,10 +54,11 @@
 import CustomEmojiList from '../components/CustomEmojiList';
 import SelectedEmojiList from '../components/SelectedEmojiList';
 import DownloadTopEmojisButton from '../components/DownloadTopEmojisButton';
+import Loader from '../components/Loader';
 
 export default {
   name: 'Custom',
-  components: {CustomEmojiList, SelectedEmojiList, DownloadTopEmojisButton},
+  components: {CustomEmojiList, SelectedEmojiList, DownloadTopEmojisButton, Loader},
   data: () => {
     return {
       searchValue: '',
