@@ -1,11 +1,11 @@
 <template>
   <div id="home">
-    <div class="welcome scroll-block scroll-block-center">
+    <div class="welcome scroll-block scroll-block-center" id="welcome">
       <div class="scroll-block-wrapper">
         <h1>EMOJI<span class="alt-color">GUN</span></h1>
-        <h2>Free and open-source emoji sharing tool</h2>
+        <h4>Sharing custom emojis made easy</h4>
         <button
-          id="get-started-btn"
+          class="get-started-btn"
           :class="{animated: buttonAnimation}"
           @click="scrollToGetStarted"
         >
@@ -17,9 +17,43 @@
       </div>
     </div>
 
-    <div class="get-started scroll-block"></div>
+    <div class="more scroll-block">
+      <h2>The first custom emoji sharing tool.</h2>
 
-    <div class="more scroll-block"></div>
+      <p>
+        Bored of built-in chat app emojis?
+      </p>
+      <p>
+        Want a consistent emoji sharing experience across all chat apps?
+      </p>
+      <p>
+        Want to easily share your own custom emojis?
+      </p>
+
+      With emojigun you can share your emojis with ease.
+      You can either add your own emojis or create a pack using our <router-link to="/loader">emojiloader</router-link>.
+
+      <div>
+        It is also
+        <ul>
+          <li>
+            free and open-source
+          </li>
+          <li>
+            available on windows and linux
+          </li>
+          <li>
+            compatible with any app which supports pasting images
+          </li>
+        </ul>
+      </div>
+
+      <button class="get-started-btn" @click="scrollToGetStarted">
+        Get started
+      </button>
+    </div>
+
+    <div class="get-started scroll-block"></div>
   </div>
 </template>
 
@@ -42,10 +76,10 @@ export default {
   },
   methods: {
     scrollToGetStarted() {
-      this.scrollTo(window.innerHeight * 1);
+      this.scrollTo(window.innerHeight * 2);
     },
     scrollToMore() {
-      this.scrollTo(window.innerHeight * 2);
+      this.scrollTo(window.innerHeight * 1);
     },
     scrollTo(height) {
       document.getElementById('home').scrollTo({
@@ -84,10 +118,14 @@ export default {
   }
 
   h2 {
+    font-size: 3.5vw;
+  }
+
+  h4 {
     font-size: 1.5vw;
   }
 
-  #get-started-btn {
+  .get-started-btn {
     background: $color-complementary-3;
     color: $color-complementary-1;
 
@@ -117,17 +155,17 @@ export default {
   height: 100vh;
   width: 100vw;
 
-  &.welcome {
-    background: red;
-  }
-
-  &.get-started {
-    background: blue;
-  }
-
-  &.more {
-    background: green;
-  }
+  //  &.welcome {
+  //    background: red;
+  //  }
+  //
+  //  &.get-started {
+  //    background: blue;
+  //  }
+  //
+  //  &.more {
+  //    background: green;
+  //  }
 
   &.scroll-block-center {
     display: flex;
@@ -135,6 +173,19 @@ export default {
     .scroll-block-wrapper {
       margin: auto;
     }
+  }
+}
+
+.more {
+  h2 {
+    padding-top: 6vh;
+  }
+
+  display: flex;
+  flex-direction: column;
+
+  .get-started-btn {
+    align-self: center;
   }
 }
 

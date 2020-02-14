@@ -13,35 +13,35 @@
 </template>
 
 <script>
-import Loader from "./components/Loader";
+import Loader from './components/Loader';
 
 export default {
-  components: { Loader },
+  components: {Loader},
   data() {
     return {};
   },
   computed: {
     bgClass() {
       let bg = Math.round(Math.random() * 5) + 1;
-      return "bg" + bg;
+      return 'bg' + bg;
     },
     isGeneratingZip() {
       return this.$store.state.generatingZip;
-    }
+    },
   },
-  mounted() {}
+  mounted() {},
 };
 </script>
 
 <style lang="scss">
-@import "styles/global";
+@import 'styles/global';
 
 #app {
   width: 100%;
   height: 100%;
   color: $color-light;
 
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -54,9 +54,9 @@ export default {
     width: 100%;
     height: 100%;
 
-    content: "";
+    content: '';
 
-    background-image: url("../public/background-multi.jpg");
+    background-image: url('../public/background-multi.jpg');
     background-position: -24px -24px;
     background-repeat: repeat;
 
@@ -72,7 +72,7 @@ export default {
   width: 100%;
   height: 100%;
 
-  background: rgba(15, 0, 0, 0.35);
+  background: rgba(15, 0, 0, 0.45);
 
   &.dark {
     background: rgba(15, 0, 0, 0.65);
@@ -107,7 +107,7 @@ export default {
 
     width: 100%;
     height: 100%;
-    content: "";
+    content: '';
     background: rgba(darken($color-complementary-1, 80%), 0.8);
   }
 
