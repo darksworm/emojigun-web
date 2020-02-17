@@ -30,8 +30,9 @@
         Want to easily share your own custom emojis?
       </p>
 
-      With emojigun you can share your emojis with ease.
-      You can either add your own emojis or create a pack using our <router-link to="/loader">emojiloader</router-link>.
+      With emojigun you can share your emojis with ease. You can either add your
+      own emojis or create a pack using our
+      <router-link to="/loader">emojiloader</router-link>.
 
       <div>
         It is also
@@ -53,7 +54,20 @@
       </button>
     </div>
 
-    <div class="get-started scroll-block"></div>
+    <div id="get-started" class="get-started scroll-block">
+      <router-link to="/loader">Get emojis</router-link>
+
+      <a href="https://github.com/darksworm/imgsel/blob/master/INSTALL.md">
+        Download for Linux
+        <img src="<%= BASE_URL %>tux_mono.svg"/>
+      </a>
+      <a
+        href="https://github.com/darksworm/imgsel/releases/download/v0.2.0/imgsel.exe"
+      >
+        Download for Windows
+        <img src="<%= BASE_URL %>windows.svg"/>
+      </a>
+    </div>
   </div>
 </template>
 
@@ -71,7 +85,7 @@ export default {
   data() {
     return {
       buttonAnimation: false,
-      buttonClicked: false,
+      buttonClicked: false
     };
   },
   methods: {
@@ -186,6 +200,29 @@ export default {
 
   .get-started-btn {
     align-self: center;
+  }
+}
+
+#get-started {
+  display: flex;
+  list-style: none;
+
+  a, router-link {
+    width: 20vw;
+    height: 20vw;
+    border-radius: 1.5vw;
+
+    background: red;
+
+    margin: auto 0 auto 4vw;
+
+    &:first-child {
+      margin-left: auto;
+    }
+
+    &:last-child {
+      margin-right: auto;
+    }
   }
 }
 
