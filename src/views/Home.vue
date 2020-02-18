@@ -55,17 +55,24 @@
     </div>
 
     <div id="get-started" class="get-started scroll-block">
-      <router-link to="/loader">Get emojis</router-link>
+      <router-link to="/loader">
+        Get emojis
+        <img :src="require('../../public/sunglasses.svg')" />
+      </router-link>
 
-      <a href="https://github.com/darksworm/imgsel/blob/master/INSTALL.md">
+      <a
+        class="download download-linux"
+        href="https://github.com/darksworm/imgsel/blob/master/INSTALL.md"
+      >
         Download for Linux
-        <img src="<%= BASE_URL %>tux_mono.svg"/>
+        <img :src="require('../../public/tux_mono.svg')" />
       </a>
       <a
+        class="download download-windows"
         href="https://github.com/darksworm/imgsel/releases/download/v0.2.0/imgsel.exe"
       >
         Download for Windows
-        <img src="<%= BASE_URL %>windows.svg"/>
+        <img :src="require('../../public/windows.svg')" />
       </a>
     </div>
   </div>
@@ -85,7 +92,7 @@ export default {
   data() {
     return {
       buttonAnimation: false,
-      buttonClicked: false
+      buttonClicked: false,
     };
   },
   methods: {
@@ -169,18 +176,6 @@ export default {
   height: 100vh;
   width: 100vw;
 
-  //  &.welcome {
-  //    background: red;
-  //  }
-  //
-  //  &.get-started {
-  //    background: blue;
-  //  }
-  //
-  //  &.more {
-  //    background: green;
-  //  }
-
   &.scroll-block-center {
     display: flex;
 
@@ -207,12 +202,11 @@ export default {
   display: flex;
   list-style: none;
 
-  a, router-link {
+  a,
+  router-link {
     width: 20vw;
     height: 20vw;
     border-radius: 1.5vw;
-
-    background: red;
 
     margin: auto 0 auto 4vw;
 
@@ -222,6 +216,11 @@ export default {
 
     &:last-child {
       margin-right: auto;
+    }
+
+    img {
+      width: 50%;
+      height: 50%;
     }
   }
 }
