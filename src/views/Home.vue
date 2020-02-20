@@ -7,13 +7,19 @@
         <button
           class="get-started-btn"
           :class="{animated: buttonAnimation}"
-          @click="scrollToGetStarted"
+          @click="downloadForOS"
         >
-          Get started
+          Download for {{ os }}
         </button>
-        <button id="more-btn" @click="scrollToMore">
-          More
-        </button>
+        <router-link to="/loader"
+          ><button id="get-emojis-btn">
+            Get emojis
+          </button>
+        </router-link>
+      </div>
+
+      <div class="bounce">
+        <a class="arrow down" @click="scrollToMore"></a>
       </div>
     </div>
 
@@ -49,31 +55,9 @@
         </ul>
       </div>
 
-      <button class="get-started-btn" @click="scrollToGetStarted">
+      <button class="get-started-btn" @click="scrollToTop">
         Get started
       </button>
-    </div>
-
-    <div id="get-started" class="get-started scroll-block">
-      <router-link to="/loader">
-        Get emojis
-        <img :src="require('../../public/sunglasses.svg')" />
-      </router-link>
-
-      <a
-        class="download download-linux"
-        href="https://github.com/darksworm/imgsel/blob/master/INSTALL.md"
-      >
-        Download for Linux
-        <img :src="require('../../public/tux_mono.svg')" />
-      </a>
-      <a
-        class="download download-windows"
-        href="https://github.com/darksworm/imgsel/releases/download/v0.2.0/imgsel.exe"
-      >
-        Download for Windows
-        <img :src="require('../../public/windows.svg')" />
-      </a>
     </div>
   </div>
 </template>
@@ -95,12 +79,46 @@ export default {
       buttonClicked: false,
     };
   },
+  computed: {
+    os() {
+      let os = 'Unknown';
+
+      if (window.navigator.userAgent.indexOf('Windows') !== -1) {
+        os = 'Windows';
+      }
+      if (window.navigator.userAgent.indexOf('Mac') !== -1) {
+        os = 'Mac';
+      }
+      if (window.navigator.userAgent.indexOf('X11') !== -1) {
+        os = 'UNIX';
+      }
+      if (window.navigator.userAgent.indexOf('Linux') !== -1) {
+        os = 'Linux';
+      }
+
+      return os;
+    },
+    osSupported() {
+      return ['Windows', 'Linux'].indexOf(this.os) !== -1;
+    },
+  },
+  created() {
+    window.addEventListener('scroll', this.onScroll);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.onScroll);
+  },
   methods: {
-    scrollToGetStarted() {
-      this.scrollTo(window.innerHeight * 2);
+    onScroll() {
+        console.log(1);
     },
     scrollToMore() {
       this.scrollTo(window.innerHeight * 1);
+    },
+    scrollToTop() {
+      this.scrollTo(0);
+      this.buttonAnimation = false;
+      setTimeout(() => (this.buttonAnimation = true), 1000);
     },
     scrollTo(height) {
       document.getElementById('home').scrollTo({
@@ -109,6 +127,22 @@ export default {
         behavior: 'smooth',
       });
       this.buttonClicked = true;
+    },
+    downloadForOS() {
+      let url;
+      this.buttonClicked = true;
+
+      if (this.os === 'Linux') {
+        url = 'https://github.com/darksworm/imgsel/blob/master/INSTALL.md';
+      }
+
+      if (this.os === 'Windows') {
+        url =
+          'https://github.com/darksworm/imgsel/releases/download/v0.2.0/imgsel.exe';
+      }
+
+      let win = window.open(url, '_blank');
+      win.focus();
     },
   },
   components: {},
@@ -159,7 +193,7 @@ export default {
     }
   }
 
-  #more-btn {
+  #get-emojis-btn {
     margin-left: 16px;
   }
 
@@ -222,6 +256,132 @@ export default {
       width: 50%;
       height: 50%;
     }
+  }
+}
+
+.arrow {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-block;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 0.2rem;
+    display: block;
+
+    &:hover {
+      background: red;
+    }
+  }
+
+  &.left,
+  &.right {
+    width: 1.667em;
+    &:before {
+      top: 55%;
+    }
+    &:after {
+      bottom: 55%;
+    }
+    &:before,
+    &:after {
+      left: -5%;
+      height: 25%;
+      width: 110%;
+    }
+  }
+
+  &.up,
+  &.down {
+    height: 1.667em;
+    &:before {
+      left: 55%;
+    }
+    &:after {
+      right: 55%;
+    }
+    &:before,
+    &:after {
+      top: -5%;
+      height: 110%;
+      width: 25%;
+    }
+  }
+
+  &.left {
+    &:before,
+    &:after {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+  }
+  &.right {
+    &:before,
+    &:after {
+      transform: rotate(-45deg);
+    }
+    &:after {
+      transform: rotate(45deg);
+    }
+  }
+  &.up {
+    &:before,
+    &:after {
+      transform: rotate(-45deg);
+    }
+    &:after {
+      transform: rotate(45deg);
+    }
+  }
+  &.down {
+    &:before,
+    &:after {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+.bounce {
+  position: absolute;
+  top: calc(100vh - 48px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  -moz-animation: bounce 3s infinite;
+  -webkit-animation: bounce 3s infinite;
+  animation: bounce 3s infinite;
+
+  &:hover {
+    cursor: pointer;
+    -webkit-animation-play-state: paused;
+    -moz-animation-play-state: paused;
+    -o-animation-play-state: paused;
+    animation-play-state: paused;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
   }
 }
 
