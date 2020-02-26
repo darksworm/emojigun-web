@@ -363,6 +363,10 @@ export default {
   -moz-animation: bounce 3s infinite;
   -webkit-animation: bounce 3s infinite;
   animation: bounce 3s infinite;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .bounce-click-box {
