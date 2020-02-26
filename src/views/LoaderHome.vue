@@ -81,9 +81,11 @@ export default {
     left: 50%;
     transform: translateX(-50%);
 
-    color:$color-complementary-2;
+    color: $color-complementary-2;
     text-decoration: none;
     font-size: 1.2vw;
+
+    opacity: 0.9;
   }
 }
 </style>
