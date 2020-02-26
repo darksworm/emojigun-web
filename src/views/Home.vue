@@ -18,9 +18,12 @@
         </router-link>
       </div>
 
-      <div class="bounce">
-        <a class="arrow down" @click="scrollToMore"></a>
-      </div>
+      <template v-if="!bounceHidden">
+        <div class="bounce-click-box" @click="scrollToMore"></div>
+        <div class="bounce">
+          <a class="arrow down" @click.prevent="scrollToMore"></a>
+        </div>
+      </template>
     </div>
 
     <div class="more scroll-block">
@@ -72,11 +75,13 @@ export default {
       }.bind(this),
       3500,
     );
+    document.getElementById('home').addEventListener('scroll', this.onScroll);
   },
   data() {
     return {
       buttonAnimation: false,
       buttonClicked: false,
+      bounceHidden: false,
     };
   },
   computed: {
@@ -102,15 +107,14 @@ export default {
       return ['Windows', 'Linux'].indexOf(this.os) !== -1;
     },
   },
-  created() {
-    window.addEventListener('scroll', this.onScroll);
-  },
   destroyed() {
-    window.removeEventListener('scroll', this.onScroll);
+    document
+      .getElementById('home')
+      .removeEventListener('scroll', this.onScroll);
   },
   methods: {
     onScroll() {
-        console.log(1);
+      this.bounceHidden = document.getElementById('home').scrollTop > 0;
     },
     scrollToMore() {
       this.scrollTo(window.innerHeight * 1);
@@ -359,13 +363,17 @@ export default {
   -moz-animation: bounce 3s infinite;
   -webkit-animation: bounce 3s infinite;
   animation: bounce 3s infinite;
+}
+
+.bounce-click-box {
+  position: absolute;
+  top: calc(100vh - 104px);
+  left: 0;
+  width: 100vw;
+  height: 104px;
 
   &:hover {
     cursor: pointer;
-    -webkit-animation-play-state: paused;
-    -moz-animation-play-state: paused;
-    -o-animation-play-state: paused;
-    animation-play-state: paused;
   }
 }
 

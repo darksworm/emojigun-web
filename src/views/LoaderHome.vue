@@ -12,6 +12,12 @@
         Create custom emoji pack
       </button>
     </router-link>
+
+    <router-link to="/" class="back">
+      <h3>
+        &lt; &lt; Back to EMOJIGUN
+      </h3>
+    </router-link>
   </div>
 </template>
 
@@ -67,6 +73,17 @@ export default {
     padding: 20px 34px;
     text-transform: uppercase;
     font-size: 26px;
+  }
+
+  .back {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    color:$color-complementary-2;
+    text-decoration: none;
+    font-size: 1.2vw;
   }
 }
 </style>
