@@ -1,7 +1,11 @@
 <template>
   <div id="app" :class="bgClass">
     <div id="appShadow"></div>
-    <router-view />
+
+    <transition :name="transitionName" v-if="transitionName">
+      <router-view />
+    </transition>
+    <router-view v-else />
 
     <div id="generatingOverlay" v-if="isGeneratingZip">
       <div>
@@ -18,7 +22,7 @@ import Loader from './components/Loader';
 export default {
   components: {Loader},
   data() {
-    return {};
+    return {transitionName: 'slideout'};
   },
   computed: {
     bgClass() {
@@ -30,6 +34,17 @@ export default {
     },
   },
   mounted() {},
+  watch: {
+    $route(to, from) {
+      if (from.name === 'loader' && to.name === 'home') {
+        this.transitionName = 'slide-left';
+      } else if (from.name === 'home' && to.name === 'loader') {
+        this.transitionName = 'slide-right';
+      } else {
+        this.transitionName = '';
+      }
+    },
+  },
 };
 </script>
 
@@ -122,5 +137,31 @@ export default {
   .text {
     margin-bottom: 12px;
   }
+}
+
+.slide-left-leave-active,
+.slide-left-enter-active,
+.slide-right-leave-active,
+.slide-right-enter-active {
+  transition: 0.8s;
+  position: absolute;
+
+  &,
+  * {
+    overflow: hidden !important;
+  }
+}
+.slide-right-enter {
+  transform: translate(100%, 0);
+}
+.slide-right-leave-to {
+  transform: translate(-100%, 0);
+}
+
+.slide-left-enter {
+  transform: translate(-100%, 0);
+}
+.slide-left-leave-to {
+  transform: translate(100%, 0);
 }
 </style>

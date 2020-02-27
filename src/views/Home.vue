@@ -29,6 +29,37 @@
     <div class="more scroll-block">
       <h2>The first custom emoji sharing tool.</h2>
 
+      <div class="question-blocks">
+        <div class="question-block">
+          <h3>Where</h3>
+          <p>
+            Use EMOJIGUN to share or embed emojis in
+            <b>any application</b> which supports images.
+          </p>
+        </div>
+
+        <div class="question-block">
+          <h3>Why</h3>
+          <p>Use the same emoji library across all chat apps.</p>
+          <p>
+            Share custom emojis without having to import then in your chat app.
+          </p>
+          <p>
+            Access your emojis with a few keypresses.
+          </p>
+        </div>
+
+        <div class="question-block">
+          <h3>What</h3>
+          <p>
+            You can share any images or emojis you want but to get started you
+            should consider
+            <router-link to="/loader">creating an emoji pack</router-link>
+          </p>
+        </div>
+      </div>
+
+      <!-- 
       <p>
         Bored of built-in chat app emojis?
       </p>
@@ -57,6 +88,7 @@
           </li>
         </ul>
       </div>
+      -->
 
       <button class="get-started-btn" @click="scrollToTop">
         Get started
@@ -158,7 +190,7 @@ export default {
 #home {
   z-index: 0;
 
-  width: 100%;
+  width: 100vw;
   max-height: 100vh;
 
   text-align: center;
@@ -233,6 +265,34 @@ export default {
 
   .get-started-btn {
     align-self: center;
+    margin-top: auto;
+    margin-bottom: 48px;
+  }
+
+  a {
+    color: $color-complementary-3;
+  }
+
+  .question-blocks {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    font-size: 20px;
+
+    .question-block {
+      max-width: 18vw;
+      max-width: 440px;
+      min-width: 360px;
+
+      padding: 0 16px 16px;
+
+      &:not(:last-child) {
+        margin-right: 12px;
+      }
+
+      background: rgba(0, 0, 0, 0.7);
+    }
   }
 }
 

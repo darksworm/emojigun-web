@@ -1,17 +1,19 @@
 <template>
   <div id="home">
-    <h1>EMOJI<span class="alt-color">LOADER</span></h1>
-    <DownloadTopEmojisButton>
-      <button class="top-emoji-pack">
-        Download top emoji pack
-      </button>
-    </DownloadTopEmojisButton>
+    <div class="center-content">
+      <h1>EMOJI<span class="alt-color">LOADER</span></h1>
+      <DownloadTopEmojisButton>
+        <button class="top-emoji-pack">
+          Download top emoji pack
+        </button>
+      </DownloadTopEmojisButton>
 
-    <router-link to="custom" class="custom-pack">
-      <button class="custom-emoji-pack">
-        Create custom emoji pack
-      </button>
-    </router-link>
+      <router-link to="custom" class="custom-pack">
+        <button class="custom-emoji-pack">
+          Create custom emoji pack
+        </button>
+      </router-link>
+    </div>
 
     <router-link to="/" class="back">
       <h3>
@@ -35,8 +37,16 @@ export default {
 @import '../styles/colors.scss';
 #home {
   z-index: 0;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   text-align: center;
+
+  display: flex;
+  align-content: center;
+
+  .center-content {
+    margin: auto;
+  }
 
   .alt-color {
     color: $color-complementary-1;
