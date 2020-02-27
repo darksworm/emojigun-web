@@ -26,7 +26,7 @@
       </template>
     </div>
 
-    <div class="more scroll-block">
+    <div id="more" class="more scroll-block">
       <h2>The first custom emoji sharing tool.</h2>
 
       <div class="question-blocks">
@@ -107,8 +107,10 @@ export default {
       }.bind(this),
       3500,
     );
-      console.log('binding');
-    document.getElementById('home').addEventListener('scroll', this.onScroll.bind(this));
+
+    document
+      .getElementById('home')
+      .addEventListener('scroll', this.onScroll.bind(this));
   },
   data() {
     return {
@@ -147,22 +149,22 @@ export default {
   },
   methods: {
     onScroll() {
-      console.log(document.getElementById('home').scrollTop);
-      this.bounceHidden = document.getElementById('home').scrollTop > 0;
+      let homeScrollTop = document.getElementById('home').scrollTop;
+      this.bounceHidden = homeScrollTop > 0;
     },
-    scrollToMore() {
-      this.scrollTo(window.innerHeight * 1);
+    scrollToMore(smooth = true) {
+      this.scrollTo(window.innerHeight * 1, smooth);
     },
     scrollToTop() {
       this.scrollTo(0);
       this.buttonAnimation = false;
       setTimeout(() => (this.buttonAnimation = true), 1000);
     },
-    scrollTo(height) {
+    scrollTo(height, smooth = true) {
       document.getElementById('home').scrollTo({
         top: height,
         left: 0,
-        behavior: 'smooth',
+        behavior: smooth ? 'smooth' : 'auto',
       });
       this.buttonClicked = true;
     },

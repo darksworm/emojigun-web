@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div id="loader-home">
     <div class="center-content">
       <h1>EMOJI<span class="alt-color">LOADER</span></h1>
       <DownloadTopEmojisButton>
@@ -27,7 +27,7 @@
 import DownloadTopEmojisButton from '../components/DownloadTopEmojisButton';
 
 export default {
-  name: 'Home',
+  name: 'LoaderHome',
   mounted() {},
   components: {DownloadTopEmojisButton},
 };
@@ -35,7 +35,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../styles/colors.scss';
-#home {
+#loader-home {
   z-index: 0;
   width: 100vw;
   height: 100vh;
