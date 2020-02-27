@@ -107,7 +107,8 @@ export default {
       }.bind(this),
       3500,
     );
-    document.getElementById('home').addEventListener('scroll', this.onScroll);
+      console.log('binding');
+    document.getElementById('home').addEventListener('scroll', this.onScroll.bind(this));
   },
   data() {
     return {
@@ -146,6 +147,7 @@ export default {
   },
   methods: {
     onScroll() {
+      console.log(document.getElementById('home').scrollTop);
       this.bounceHidden = document.getElementById('home').scrollTop > 0;
     },
     scrollToMore() {

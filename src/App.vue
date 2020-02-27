@@ -143,11 +143,11 @@ export default {
 .slide-left-enter-active,
 .slide-right-leave-active,
 .slide-right-enter-active {
-  transition: 0.8s;
+  transition: 1.2s;
   position: absolute;
 
   &,
-  * {
+  & > * {
     overflow: hidden !important;
   }
 }
