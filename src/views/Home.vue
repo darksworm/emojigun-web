@@ -90,14 +90,28 @@
       </div>
       -->
 
-      <button class="get-started-btn" @click="scrollToTop">
-        Get started
-      </button>
+      <div class="bottom-btns">
+        <button class="get-started-btn" @click="scrollToTop">
+          Get started
+        </button>
+
+        <button class="see-in-action-btn" @click="showGallery">
+          See it in action
+        </button>
+      </div>
     </div>
+
+    <vue-gallery
+      :images="images"
+      :index="galleryIndex"
+      @close="closeGallery"
+    ></vue-gallery>
   </div>
 </template>
 
 <script>
+import VueGallery from 'vue-gallery';
+
 export default {
   name: 'Home',
   mounted() {
@@ -117,6 +131,15 @@ export default {
       buttonAnimation: false,
       buttonClicked: false,
       bounceHidden: false,
+      galleryOpen: false,
+      galleryOpenedOnce: false,
+      images: [
+          require("../../assets/search-by-typing.gif"),
+          require("../../assets/navigate-with-arrow-keys.gif"),
+          require("../../assets/advanced-navigation.gif"),
+          require("../../assets/its-fast.gif"),
+      ],
+      galleryIndex: null,
     };
   },
   computed: {
@@ -148,6 +171,15 @@ export default {
       .removeEventListener('scroll', this.onScroll);
   },
   methods: {
+    closeGallery() {
+      this.galleryOpen = false;
+      this.galleryIndex = null;
+    },
+    showGallery() {
+      this.galleryOpenedOnce = true;
+      this.galleryOpen = true;
+      this.galleryIndex = 1;
+    },
     onScroll() {
       let homeScrollTop = document.getElementById('home').scrollTop;
       this.bounceHidden = homeScrollTop > 0;
@@ -185,7 +217,7 @@ export default {
       win.focus();
     },
   },
-  components: {},
+  components: {VueGallery},
 };
 </script>
 
@@ -267,10 +299,21 @@ export default {
   display: flex;
   flex-direction: column;
 
-  .get-started-btn {
+  .bottom-btns {
     align-self: center;
     margin-top: auto;
-    margin-bottom: 48px;
+    margin-bottom: 12vh;
+    flex-direction: row;
+
+    display: flex;
+
+    .get-started-btn {
+      margin-left: auto;
+      margin-right: 16px;
+    }
+    .see-in-action-btn {
+      margin-right: auto;
+    }
   }
 
   a {
