@@ -11,7 +11,7 @@
         >
           Download for {{ os }}
         </button>
-        <router-link to="/loader"
+        <router-link to="/loader" @click="$ga.send('buttons', 'get-emojis')"
           ><button id="get-emojis-btn">
             Get emojis
           </button>
@@ -59,37 +59,6 @@
         </div>
       </div>
 
-      <!-- 
-      <p>
-        Bored of built-in chat app emojis?
-      </p>
-      <p>
-        Want a consistent emoji sharing experience across all chat apps?
-      </p>
-      <p>
-        Want to easily share your own custom emojis?
-      </p>
-
-      With emojigun you can share your emojis with ease. You can either add your
-      own emojis or create a pack using our
-      <router-link to="/loader">emojiloader</router-link>.
-
-      <div>
-        It is also
-        <ul>
-          <li>
-            free and open-source
-          </li>
-          <li>
-            available on windows and linux
-          </li>
-          <li>
-            compatible with any app which supports pasting images
-          </li>
-        </ul>
-      </div>
-      -->
-
       <div class="bottom-btns">
         <button class="get-started-btn" @click="scrollToTop">
           Get started
@@ -104,6 +73,9 @@
     <vue-gallery
       :images="images"
       :index="galleryIndex"
+      :options="{
+        onslideend: onGalleryImg,
+      }"
       @close="closeGallery"
     ></vue-gallery>
   </div>
@@ -131,13 +103,14 @@ export default {
       buttonAnimation: false,
       buttonClicked: false,
       bounceHidden: false,
+      bottomVisitedOnce: false,
       galleryOpen: false,
       galleryOpenedOnce: false,
       images: [
-          require("../../assets/search-by-typing.gif"),
-          require("../../assets/navigate-with-arrow-keys.gif"),
-          require("../../assets/advanced-navigation.gif"),
-          require("../../assets/its-fast.gif"),
+        require('../../assets/search-by-typing.gif'),
+        require('../../assets/navigate-with-arrow-keys.gif'),
+        require('../../assets/advanced-navigation.gif'),
+        require('../../assets/its-fast.gif'),
       ],
       galleryIndex: null,
     };
@@ -176,21 +149,31 @@ export default {
       this.galleryIndex = null;
     },
     showGallery() {
+      this.galleryIndex = 1;
       this.galleryOpenedOnce = true;
       this.galleryOpen = true;
-      this.galleryIndex = 1;
+
+      this.$ga.event('buttons', 'see-it-in-action');
     },
     onScroll() {
       let homeScrollTop = document.getElementById('home').scrollTop;
       this.bounceHidden = homeScrollTop > 0;
+
+      if (homeScrollTop >= window.innerHeight - 1) {
+        this.bottomVisitedOnce = true;
+      }
     },
     scrollToMore(smooth = true) {
       this.scrollTo(window.innerHeight * 1, smooth);
+
+      this.$ga.event('buttons', 'scroll-to-more');
     },
     scrollToTop() {
       this.scrollTo(0);
       this.buttonAnimation = false;
       setTimeout(() => (this.buttonAnimation = true), 1000);
+
+      this.$ga.event('buttons', 'scroll-to-more');
     },
     scrollTo(height, smooth = true) {
       document.getElementById('home').scrollTo({
@@ -213,11 +196,23 @@ export default {
           'https://github.com/darksworm/imgsel/releases/download/v0.2.0/imgsel.exe';
       }
 
+      this.$ga.event('buttons', 'download', this.os);
+
       let win = window.open(url, '_blank');
       win.focus();
     },
+    onGalleryImg() {
+      if (this.galleryOpen) {
+        this.$ga.event('gallery', 'switch-image');
+      }
+    },
   },
   components: {VueGallery},
+  watch: {
+    bottomVisitedOnce() {
+      this.$ga.send('view', 'more');
+    },
+  },
 };
 </script>
 

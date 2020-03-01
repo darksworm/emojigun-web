@@ -15,7 +15,7 @@
       </router-link>
     </div>
 
-    <router-link to="/" class="back">
+    <router-link to="/" class="back" @click="$ga.send('buttons', 'back-to-emojigun')">
       <h3>
         &lt; &lt; Back to EMOJIGUN
       </h3>
