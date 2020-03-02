@@ -7,8 +7,12 @@
         class="back-button"
         :style="{marginLeft: headerHorizontalMargin + 'px'}"
       >
-        <router-link to="/" class="back-to-emojigun">
-            <button>Back to EMOJIGUN</button>
+        <router-link
+          to="/"
+          class="back-to-emojigun"
+          @click="$ga.event('buttons', 'back-to-emojigun')"
+        >
+          <button>Back to EMOJIGUN</button>
         </router-link>
         <DownloadTopEmojisButton>
           <button>Download top emojis</button>
@@ -119,6 +123,8 @@ export default {
       this.showBackToTop = false;
     },
     downloadSelected() {
+      this.$ga.event('emojiloader', 'download-selected-click');
+
       this.$store.commit('generationStarted');
 
       this.$refs.selectedList.download().then(
@@ -128,6 +134,7 @@ export default {
           setTimeout(
             function() {
               this.$store.commit('generationEnded');
+              this.$ga.event('emojiloader', 'downloaded-selected');
             }.bind(this),
             500,
           );
@@ -154,6 +161,8 @@ export default {
 
         this.$http.get(this.nextPageURL).then(
           function(response) {
+            this.$ga.event('emojiloader', 'load-next-page');
+
             for (let emoticon of response.body.emoticons) {
               if (typeof this.emojiList[emoticon.name] === 'undefined') {
                 this.emojiList[emoticon.name] = {
@@ -197,6 +206,10 @@ export default {
         'https://api.frankerfacez.com/v1/emoticons?sort=count&per_page=100';
       if (filter) {
         url = url + '&q=' + filter;
+      }
+
+      if (filter) {
+        this.$ga.event('emojiloader', 'search-query', filter);
       }
 
       return this.$http
@@ -345,6 +358,6 @@ export default {
 }
 
 .back-to-emojigun {
-    margin-right: 12px;
+  margin-right: 12px;
 }
 </style>

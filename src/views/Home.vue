@@ -11,7 +11,7 @@
         >
           Download for {{ os }}
         </button>
-        <router-link to="/loader" @click="$ga.send('buttons', 'get-emojis')"
+        <router-link to="/loader" @click="$ga.event('buttons', 'get-emojis')"
           ><button id="get-emojis-btn">
             Get emojis
           </button>
@@ -210,7 +210,7 @@ export default {
   components: {VueGallery},
   watch: {
     bottomVisitedOnce() {
-      this.$ga.send('view', 'more');
+      this.$ga.event('view', 'more');
     },
   },
 };

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { event } from 'vue-analytics';
 
 Vue.use(Vuex);
 
@@ -11,9 +12,11 @@ export default new Vuex.Store({
   mutations: {
     selectEmoji(state, emoji) {
       Vue.set(state.selectedEmojis, emoji.url, emoji);
+      event('emojiloader', 'select-emoji', emoji.name);
     },
     deselectEmoji(state, emoji) {
       Vue.delete(state.selectedEmojis, emoji.url);
+      event('emojiloader', 'deselect-emoji', emoji.name);
     },
     clearSelection(state) {
       Vue.delete(state, "selectedEmojis");
