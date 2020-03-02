@@ -97,6 +97,8 @@ export default {
     document
       .getElementById('home')
       .addEventListener('scroll', this.onScroll.bind(this));
+
+    this.$store.commit('slideRightForNextTransition');
   },
   data() {
     return {
@@ -212,7 +214,7 @@ export default {
     bottomVisitedOnce() {
       this.$ga.event('view', 'more');
     },
-  },
+  }
 };
 </script>
 

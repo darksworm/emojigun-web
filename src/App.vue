@@ -21,9 +21,6 @@ import Loader from './components/Loader';
 
 export default {
   components: {Loader},
-  data() {
-    return {transitionName: 'slideout'};
-  },
   computed: {
     bgClass() {
       let bg = Math.round(Math.random() * 5) + 1;
@@ -32,17 +29,8 @@ export default {
     isGeneratingZip() {
       return this.$store.state.generatingZip;
     },
-  },
-  mounted() {},
-  watch: {
-    $route(to, from) {
-      if (from.name === 'loader' && to.name === 'home') {
-        this.transitionName = 'slide-left';
-      } else if (from.name === 'home' && to.name === 'loader') {
-        this.transitionName = 'slide-right';
-      } else {
-        this.transitionName = '';
-      }
+    transitionName() {
+      return this.$store.getters.nextTransition;
     },
   },
 };

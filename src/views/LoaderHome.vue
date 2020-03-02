@@ -8,14 +8,16 @@
         </button>
       </DownloadTopEmojisButton>
 
-      <router-link to="custom" class="custom-pack">
-        <button class="custom-emoji-pack">
-          Create custom emoji pack
-        </button>
-      </router-link>
+      <button class="custom-emoji-pack custom-pack" @click="openCustom">
+        Create custom emoji pack
+      </button>
     </div>
 
-    <router-link to="/" class="back" @click="$ga.event('buttons', 'back-to-emojigun')">
+    <router-link
+      to="/"
+      class="back"
+      @click="$ga.event('buttons', 'back-to-emojigun')"
+    >
       <h3>
         &lt; Back to EMOJIGUN
       </h3>
@@ -28,8 +30,18 @@ import DownloadTopEmojisButton from '../components/DownloadTopEmojisButton';
 
 export default {
   name: 'LoaderHome',
-  mounted() {},
+  mounted() {
+    this.$store.commit('slideLeftForNextTransition');
+  },
   components: {DownloadTopEmojisButton},
+  methods: {
+    openCustom() {
+      document.getElementById("loader-home").style.opacity = 0;
+
+      this.$store.commit('skipNextTransition');
+      this.$router.push('/custom');
+    },
+  },
 };
 </script>
 

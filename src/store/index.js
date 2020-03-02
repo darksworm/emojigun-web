@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     selectedEmojis: {},
     generatingZip: false,
+    nextTransition: '',
   },
   mutations: {
     selectEmoji(state, emoji) {
@@ -28,6 +29,15 @@ export default new Vuex.Store({
     generationEnded(state) {
       Vue.set(state, 'generatingZip', false);
     },
+    slideLeftForNextTransition(state) {
+      Vue.set(state, 'nextTransition', 'slide-left');
+    },
+    slideRightForNextTransition(state) {
+      Vue.set(state, 'nextTransition', 'slide-right');
+    },
+    skipNextTransition(state) {
+      Vue.set(state, 'nextTransition', null);
+    },
   },
   getters: {
     isEmojiSelectedByURL: state => url => {
@@ -41,6 +51,9 @@ export default new Vuex.Store({
     },
     generatingZip(state) {
       return state.generatingZip;
+    },
+    nextTransition(state) {
+      return state.nextTransition;
     },
   },
   actions: {},
