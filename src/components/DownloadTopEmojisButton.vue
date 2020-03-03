@@ -6,19 +6,19 @@
 import Vue from 'vue';
 import Emoji from './Emoji';
 import downloadZipOfFiles from '../mixins/downloader.js';
+import { event } from 'vue-analytics';
 
 export default {
   name: '',
   methods: {
     downloadTopEmojis() {
-      this.$ga.event('buttons', 'download-top-emojis', 'clicked');
+      event('buttons', 'download-top-emojis', 'clicked');
 
       let files = [];
       let promises = {};
       let emotePromises = [];
 
       let store = this.$store;
-      let ga = this.$ga;
 
       store.commit('generationStarted');
 
@@ -85,7 +85,7 @@ export default {
             return Promise.all(emotePromises).then(function() {
               return downloadZipOfFiles(files, 'top-emojis').then(function() {
                 store.commit('generationEnded');
-                ga.event('buttons', 'download-top-emojis', 'downloaded');
+                event('buttons', 'download-top-emojis', 'downloaded');
               });
             });
           });

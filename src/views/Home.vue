@@ -83,6 +83,7 @@
 
 <script>
 import VueGallery from 'vue-gallery';
+import { event } from 'vue-analytics';
 
 export default {
   name: 'Home',
@@ -158,7 +159,7 @@ export default {
 
       document.getElementById('home').style.overflowY = "hidden";
 
-      this.$ga.event('buttons', 'see-it-in-action');
+      event('buttons', 'see-it-in-action');
     },
     onScroll() {
       let homeScrollTop = document.getElementById('home').scrollTop;
@@ -171,14 +172,14 @@ export default {
     scrollToMore(smooth = true) {
       this.scrollTo(window.innerHeight * 1, smooth);
 
-      this.$ga.event('buttons', 'scroll-to-more');
+      event('buttons', 'scroll-to-more');
     },
     scrollToTop() {
       this.scrollTo(0);
       this.buttonAnimation = false;
       setTimeout(() => (this.buttonAnimation = true), 1000);
 
-      this.$ga.event('buttons', 'scroll-to-more');
+      event('buttons', 'scroll-to-more');
     },
     scrollTo(height, smooth = true) {
       document.getElementById('home').scrollTo({
@@ -201,21 +202,21 @@ export default {
           'https://github.com/darksworm/imgsel/releases/download/v0.2.0/imgsel.exe';
       }
 
-      this.$ga.event('buttons', 'download', this.os);
+      event('buttons', 'download', this.os);
 
       let win = window.open(url, '_blank');
       win.focus();
     },
     onGalleryImg() {
       if (this.galleryOpen) {
-        this.$ga.event('gallery', 'switch-image');
+        event('gallery', 'switch-image');
       }
     },
   },
   components: {VueGallery},
   watch: {
     bottomVisitedOnce() {
-      this.$ga.event('view', 'more');
+      event('view', 'more');
     },
   },
 };

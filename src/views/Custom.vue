@@ -124,7 +124,7 @@ export default {
       this.showBackToTop = false;
     },
     downloadSelected() {
-      this.$ga.event('emojiloader', 'download-selected-click');
+      event('emojiloader', 'download-selected-click');
 
       this.$store.commit('generationStarted');
 
@@ -135,7 +135,7 @@ export default {
           setTimeout(
             function() {
               this.$store.commit('generationEnded');
-              this.$ga.event('emojiloader', 'downloaded-selected');
+              event('emojiloader', 'downloaded-selected');
             }.bind(this),
             500,
           );
@@ -210,7 +210,7 @@ export default {
       }
 
       if (filter) {
-        this.$ga.event('emojiloader', 'search-query', filter);
+        event('emojiloader', 'search-query', filter);
       }
 
       return this.$http
