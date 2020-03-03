@@ -149,11 +149,14 @@ export default {
     closeGallery() {
       this.galleryOpen = false;
       this.galleryIndex = null;
+      document.getElementById('home').style.overflowY = "scroll";
     },
     showGallery() {
       this.galleryIndex = 1;
       this.galleryOpenedOnce = true;
       this.galleryOpen = true;
+
+      document.getElementById('home').style.overflowY = "hidden";
 
       this.$ga.event('buttons', 'see-it-in-action');
     },
@@ -214,7 +217,7 @@ export default {
     bottomVisitedOnce() {
       this.$ga.event('view', 'more');
     },
-  }
+  },
 };
 </script>
 
