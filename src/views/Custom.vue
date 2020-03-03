@@ -62,6 +62,7 @@ import CustomEmojiList from '../components/CustomEmojiList';
 import SelectedEmojiList from '../components/SelectedEmojiList';
 import DownloadTopEmojisButton from '../components/DownloadTopEmojisButton';
 import Loader from '../components/Loader';
+import { event } from 'vue-analytics';
 
 export default {
   name: 'Custom',
@@ -160,8 +161,8 @@ export default {
         this.loadingNextPage = true;
 
         this.$http.get(this.nextPageURL).then(
-          function(response) {
-            this.$ga.event('emojiloader', 'load-next-page');
+          function (response) {
+            event('emojiloader', 'load-next-page');
 
             for (let emoticon of response.body.emoticons) {
               if (typeof this.emojiList[emoticon.name] === 'undefined') {
@@ -359,5 +360,10 @@ export default {
 
 .back-to-emojigun {
   margin-right: 12px;
+}
+
+.emojiList {
+    display: flex;
+    flex-wrap: wrap;
 }
 </style>
