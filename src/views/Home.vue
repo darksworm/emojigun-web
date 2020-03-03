@@ -42,7 +42,7 @@
           <h3>Why</h3>
           <p>Use the same emoji library across all chat apps.</p>
           <p>
-            Share custom emojis without having to import then in your chat app.
+            Share custom emojis without having to import them in your chat app.
           </p>
           <p>
             Access your emojis with a few keypresses.
