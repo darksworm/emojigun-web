@@ -65,8 +65,8 @@ export default {
   }
 
   h1 {
-    font-size: 6.5vw;
-    margin-bottom: 0.5vw;
+    font-size: 11rem;
+    margin-bottom: 1rem;
     margin: 0;
   }
 
@@ -94,7 +94,7 @@ export default {
   button {
     padding: 20px 34px;
     text-transform: uppercase;
-    font-size: 26px;
+    font-size: 2.2rem;
   }
 
   .back {
@@ -105,7 +105,7 @@ export default {
 
     color: $color-complementary-2;
     text-decoration: none;
-    font-size: 1.2vw;
+    font-size: 1.8rem;
 
     opacity: 0.9;
   }

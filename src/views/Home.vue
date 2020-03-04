@@ -241,16 +241,17 @@ export default {
   }
 
   h1 {
-    font-size: 6.5vw;
+    font-size: 11rem;
     margin: 0;
   }
 
   h2 {
-    font-size: 3.5vw;
+    font-size: 5rem;
   }
 
   h4 {
-    font-size: 1.5vw;
+    font-size: 2.5rem;
+    margin-top: 0;
   }
 
   .get-started-btn {
@@ -273,7 +274,7 @@ export default {
   button {
     padding: 20px 34px;
     text-transform: uppercase;
-    font-size: 26px;
+    font-size: 2.2rem
   }
 }
 
@@ -326,7 +327,7 @@ export default {
     flex-direction: row;
     justify-content: center;
 
-    font-size: 20px;
+    font-size: 1.2rem;
 
     .question-block {
       max-width: 18vw;
@@ -392,7 +393,7 @@ export default {
 
   &.left,
   &.right {
-    width: 1.667em;
+    width: 1.667rem;
     &:before {
       top: 55%;
     }
@@ -409,7 +410,7 @@ export default {
 
   &.up,
   &.down {
-    height: 1.667em;
+    height: 1.667rem;
     &:before {
       left: 55%;
     }
