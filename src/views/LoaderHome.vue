@@ -4,7 +4,7 @@
       <h1>EMOJI<span class="alt-color">LOADER</span></h1>
       <DownloadTopEmojisButton>
         <button class="top-emoji-pack">
-          Download top emoji pack
+          Get top emoji pack
         </button>
       </DownloadTopEmojisButton>
 
@@ -36,7 +36,7 @@ export default {
   components: {DownloadTopEmojisButton},
   methods: {
     openCustom() {
-      document.getElementById("loader-home").style.opacity = 0;
+      document.getElementById('loader-home').style.opacity = 0;
 
       this.$store.commit('skipNextTransition');
       this.$router.push('/custom');
@@ -68,6 +68,26 @@ export default {
     font-size: 11rem;
     margin-bottom: 1rem;
     margin: 0;
+
+    @media screen and (max-width: 1024px) {
+      font-size: 10rem;
+    }
+
+    @media screen and (max-width: 860px) {
+      font-size: 9rem;
+    }
+
+    @media screen and (max-width: 740px) {
+      font-size: 8rem;
+    }
+
+    @media screen and (max-width: 660px) {
+      font-size: 8rem;
+    }
+
+    @media screen and (max-width: 560px) {
+      font-size: 7rem;
+    }
   }
 
   .custom-emoji-pack {
@@ -95,6 +115,30 @@ export default {
     padding: 20px 34px;
     text-transform: uppercase;
     font-size: 2.2rem;
+  }
+
+  @media screen and (max-width: 800px) {
+    .custom-emoji-pack,
+    .top-emoji-pack {
+      display: block;
+
+      margin-left: auto;
+      margin-right: auto;
+
+      width: 416px;
+    }
+
+    .top-emoji-pack {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .custom-emoji-pack,
+    .top-emoji-pack {
+      width: 90vw;
+    }
   }
 
   .back {

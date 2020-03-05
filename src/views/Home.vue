@@ -11,7 +11,10 @@
         >
           Download for {{ os }}
         </button>
-        <router-link to="/loader" @click="$ga.event('buttons', 'get-emojis')"
+        <router-link
+          to="/loader"
+          @click="$ga.event('buttons', 'get-emojis')"
+          style="text-decoration: none"
           ><button id="get-emojis-btn">
             Get emojis
           </button>
@@ -60,7 +63,7 @@
       </div>
 
       <div class="bottom-btns">
-        <button class="get-started-btn" @click="scrollToTop">
+        <button class="bottom-get-started-btn" @click="scrollToTop">
           Get started
         </button>
 
@@ -75,6 +78,8 @@
       :index="galleryIndex"
       :options="{
         onslideend: onGalleryImg,
+        carousel: false,
+        continuous: false,
       }"
       @close="closeGallery"
     ></vue-gallery>
@@ -83,7 +88,7 @@
 
 <script>
 import VueGallery from 'vue-gallery';
-import { event } from 'vue-analytics';
+import {event} from 'vue-analytics';
 
 export default {
   name: 'Home',
@@ -150,14 +155,14 @@ export default {
     closeGallery() {
       this.galleryOpen = false;
       this.galleryIndex = null;
-      document.getElementById('home').style.overflowY = "scroll";
+      document.getElementById('home').style.overflowY = 'scroll';
     },
     showGallery() {
       this.galleryIndex = 1;
       this.galleryOpenedOnce = true;
       this.galleryOpen = true;
 
-      document.getElementById('home').style.overflowY = "hidden";
+      document.getElementById('home').style.overflowY = 'hidden';
 
       event('buttons', 'see-it-in-action');
     },
@@ -234,24 +239,47 @@ export default {
   overflow-y: scroll;
   overflow-x: hidden;
 
-  scroll-snap-type: y mandatory;
+  @media only screen and (min-width: 1920px) {
+    scroll-snap-type: y mandatory;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none;
 
   .alt-color {
     color: $color-complementary-1;
   }
 
   h1 {
-    font-size: 11rem;
     margin: 0;
+    font-size: 12rem;
+
+    @media screen and (max-width: 760px) {
+      font-size: 10rem;
+    }
+    @media screen and (max-width: 640px) {
+      font-size: 8rem;
+    }
   }
 
   h2 {
-    font-size: 5rem;
+    font-size: 5.5rem;
+
+    @media screen and (max-width: 540px) {
+      font-size: 4.5rem;
+    }
   }
 
   h4 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-top: 0;
+
+    @media screen and (max-width: 640px) {
+      font-size: 2.5rem;
+    }
   }
 
   .get-started-btn {
@@ -265,23 +293,44 @@ export default {
     &.animated {
       animation: nudge 0.4s linear;
     }
+
+    @media screen and (max-width: 600px) {
+      width: 360px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 1.5rem;
+    }
   }
 
   #get-emojis-btn {
     margin-left: 16px;
+
+    @media screen and (max-width: 600px) {
+      width: 360px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   button {
     padding: 20px 34px;
     text-transform: uppercase;
-    font-size: 2.2rem
+    font-size: 2.2rem;
   }
 }
 
 .scroll-block {
   scroll-snap-align: start;
 
-  height: 100vh;
+  @media only screen and (min-width: 1920px) {
+    height: 100vh;
+  }
+  @media only screen and (max-width: 1920px) {
+    min-height: 100vh;
+  }
+
   width: 100vw;
 
   &.scroll-block-center {
@@ -295,7 +344,9 @@ export default {
 
 .more {
   h2 {
-    padding-top: 6vh;
+    @media screen and (min-width: 1024px) {
+      padding-top: 6vh;
+    }
   }
 
   display: flex;
@@ -303,18 +354,44 @@ export default {
 
   .bottom-btns {
     align-self: center;
-    margin-top: auto;
-    margin-bottom: 12vh;
     flex-direction: row;
 
     display: flex;
 
-    .get-started-btn {
+    .bottom-get-started-btn {
+      background: $color-complementary-3;
+      color: $color-complementary-1;
       margin-left: auto;
       margin-right: 16px;
     }
     .see-in-action-btn {
       margin-right: auto;
+    }
+
+    @media only screen and (min-width: 1920px) {
+      margin-top: auto;
+      margin-bottom: 12vh;
+    }
+
+    @media only screen and (max-width: 1920px) {
+      margin-top: 2.5rem;
+      margin-bottom: 3.5rem;
+    }
+    @media only screen and (max-width: 540px) {
+      flex-direction: column;
+      button {
+        min-width: 392px;
+        width: 66vw;
+      }
+
+      .bottom-get-started-btn,
+      .see-it-in-action-btn {
+        margin: 0;
+      }
+
+      .bottom-get-started-btn {
+        margin-bottom: 1.5rem;
+      }
     }
   }
 
@@ -327,12 +404,11 @@ export default {
     flex-direction: row;
     justify-content: center;
 
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 
     .question-block {
-      max-width: 18vw;
-      max-width: 440px;
       min-width: 360px;
+      max-width: 540px;
 
       padding: 0 16px 16px;
 
@@ -340,7 +416,30 @@ export default {
         margin-right: 12px;
       }
 
+      @media only screen and (max-width: 800px) {
+        font-size: 2rem;
+      }
+
       background: rgba(0, 0, 0, 0.7);
+    }
+
+    @media only screen and (max-width: 1500px) {
+      flex-direction: column;
+
+      .question-block {
+        width: calc(66vw - 32px);
+
+        &:not(:last-child) {
+          margin-right: auto;
+        }
+
+        margin-left: auto;
+        margin-right: auto;
+
+        &:not(:first-child) {
+          margin-top: 2rem;
+        }
+      }
     }
   }
 }
