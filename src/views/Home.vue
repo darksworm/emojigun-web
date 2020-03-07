@@ -263,6 +263,9 @@ export default {
     @media screen and (max-width: 640px) {
       font-size: 8rem;
     }
+    @media screen and (max-width: 375px) {
+      font-size: 7.5rem;
+    }
   }
 
   h2 {
@@ -270,6 +273,9 @@ export default {
 
     @media screen and (max-width: 540px) {
       font-size: 4.5rem;
+    }
+    @media screen and (max-width: 375px) {
+      font-size: 4rem;
     }
   }
 
@@ -279,6 +285,10 @@ export default {
 
     @media screen and (max-width: 640px) {
       font-size: 2.5rem;
+    }
+
+    @media screen and (max-width: 375px) {
+      font-size: 2rem;
     }
   }
 
@@ -301,6 +311,10 @@ export default {
       margin-right: auto;
       margin-bottom: 1.5rem;
     }
+
+    @media screen and (max-width: 400px) {
+      width: 80vw;
+    }
   }
 
   #get-emojis-btn {
@@ -312,12 +326,20 @@ export default {
       margin-left: auto;
       margin-right: auto;
     }
+
+    @media screen and (max-width: 400px) {
+      width: 80vw;
+    }
   }
 
   button {
     padding: 20px 34px;
     text-transform: uppercase;
     font-size: 2.2rem;
+
+    @media screen and (max-width: 860px) {
+      padding: 16px 26px;
+    }
   }
 }
 
@@ -355,6 +377,8 @@ export default {
   .bottom-btns {
     align-self: center;
     flex-direction: row;
+    margin-top: 2.5rem;
+    margin-bottom: 3.5rem;
 
     display: flex;
 
@@ -368,17 +392,14 @@ export default {
       margin-right: auto;
     }
 
-    @media only screen and (min-width: 1920px) {
+    @media only screen and (min-width: 1200px) {
       margin-top: auto;
-      margin-bottom: 12vh;
+      margin-bottom: 4rem;
     }
 
-    @media only screen and (max-width: 1920px) {
-      margin-top: 2.5rem;
-      margin-bottom: 3.5rem;
-    }
     @media only screen and (max-width: 540px) {
       flex-direction: column;
+
       button {
         min-width: 392px;
         width: 66vw;
@@ -391,6 +412,13 @@ export default {
 
       .bottom-get-started-btn {
         margin-bottom: 1.5rem;
+      }
+    }
+
+    @media only screen and (max-width: 540px) {
+      button {
+        min-width: unset;
+        width: 80vw;
       }
     }
   }
@@ -412,21 +440,13 @@ export default {
 
       padding: 0 16px 16px;
 
+      background: rgba(0, 0, 0, 0.7);
+
       &:not(:last-child) {
         margin-right: 12px;
       }
 
-      @media only screen and (max-width: 800px) {
-        font-size: 2rem;
-      }
-
-      background: rgba(0, 0, 0, 0.7);
-    }
-
-    @media only screen and (max-width: 1500px) {
-      flex-direction: column;
-
-      .question-block {
+      @media only screen and (max-width: 1500px) {
         width: calc(66vw - 32px);
 
         &:not(:last-child) {
@@ -440,6 +460,24 @@ export default {
           margin-top: 2rem;
         }
       }
+
+      @media only screen and (min-width: 1400px) {
+        max-width: 460px;
+      }
+
+      @media only screen and (max-width: 800px) {
+        font-size: 2rem;
+      }
+
+      @media only screen and (max-width: 400px) {
+        min-width: unset;
+        max-width: unset;
+        width: calc(95vw - 32px);
+      }
+    }
+
+    @media only screen and (max-width: 1500px) {
+      flex-direction: column;
     }
   }
 }

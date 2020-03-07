@@ -54,24 +54,24 @@ html {
     }
   }
 
-  font-size: 9px;
+  font-size: 7px;
 
-  @media only screen and (min-width: 400px) {
+  @media only screen and (min-width: 300px) {
+    font-size: 8px;
+  }
+  @media only screen and (min-width: 350px) {
+    font-size: 9px;
+  }
+  @media only screen and (min-width: 375px) {
     font-size: 10px;
   }
   @media only screen and (min-width: 500px) {
-    font-size: 12px;
+    font-size: 11px;
   }
   @media only screen and (min-width: 620px) {
     font-size: 12px;
   }
   @media only screen and (min-width: 800px) {
-    font-size: 14px;
-  }
-  @media only screen and (min-width: 1200px) {
-    font-size: 15px;
-  }
-  @media only screen and (min-width: 2000px) {
-    font-size: 16px;
+    font-size: 13px;
   }
 }

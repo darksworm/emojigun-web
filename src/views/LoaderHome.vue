@@ -9,7 +9,7 @@
       </DownloadTopEmojisButton>
 
       <button class="custom-emoji-pack custom-pack" @click="openCustom">
-        Create custom emoji pack
+        Make custom emoji pack
       </button>
     </div>
 
@@ -88,6 +88,14 @@ export default {
     @media screen and (max-width: 560px) {
       font-size: 7rem;
     }
+
+    @media screen and (max-width: 480px) {
+      font-size: 6rem;
+    }
+
+    @media screen and (max-width: 375px) {
+      font-size: 5.5rem;
+    }
   }
 
   .custom-emoji-pack {
@@ -115,6 +123,10 @@ export default {
     padding: 20px 34px;
     text-transform: uppercase;
     font-size: 2.2rem;
+
+    @media screen and (max-width: 860px) {
+      padding: 16px 26px;
+    }
   }
 
   @media screen and (max-width: 800px) {
