@@ -1,5 +1,5 @@
 <template>
-  <div id="home">
+  <div id="home" :class="{'scroll-snap-disabled': snapDisabled}">
     <div class="welcome scroll-block scroll-block-center" id="welcome">
       <div class="scroll-block-wrapper">
         <h1>EMOJI<span class="alt-color">GUN</span></h1>
@@ -178,6 +178,8 @@ export default {
         require('../../assets/advanced-navigation.gif'),
       ],
       galleryIndex: null,
+      snapDisabled: false,
+      previousScrollTop: 0,
     };
   },
   computed: {
@@ -229,7 +231,12 @@ export default {
 
       if (homeScrollTop >= window.innerHeight - 1) {
         this.bottomVisitedOnce = true;
+        this.snapDisabled = this.previousScrollTop < homeScrollTop;
+      } else {
+        this.snapDisabled = false;
       }
+
+      this.previousScrollTop = homeScrollTop;
     },
     scrollToMore(smooth = true) {
       this.scrollTo(window.innerHeight * 1, smooth);
@@ -289,14 +296,14 @@ export default {
 #home {
   z-index: 0;
 
-  width: 100vw;
+  width: 100%;
   max-height: 100vh;
 
   text-align: center;
   overflow-y: scroll;
   overflow-x: hidden;
 
-  @media only screen and (min-width: 1920px) {
+  &:not(.scroll-snap-disabled) {
     scroll-snap-type: y mandatory;
   }
 
@@ -403,14 +410,14 @@ export default {
 .scroll-block {
   scroll-snap-align: start;
 
-  @media only screen and (min-width: 1920px) {
+  @media only screen and (min-width: 1921px) {
     min-height: 100vh;
   }
   @media only screen and (max-width: 1920px) {
     min-height: 100vh;
   }
 
-  width: 100vw;
+  width: 100%;
 
   &.scroll-block-center {
     display: flex;
@@ -439,6 +446,12 @@ export default {
 
     display: flex;
 
+    @media only screen and (min-width: 541px) {
+      button {
+        margin-top: 2rem;
+      }
+    }
+
     .bottom-get-started-btn {
       background: $color-complementary-3;
       color: $color-complementary-1;
@@ -449,7 +462,7 @@ export default {
       margin-right: auto;
     }
 
-    @media only screen and (min-width: 1200px) {
+    @media only screen and (min-width: 1201px) {
       margin-top: auto;
       margin-bottom: 4rem;
     }
@@ -508,16 +521,18 @@ export default {
         display: flex;
         flex-direction: column;
 
-        p {
-          margin-bottom: 0;
-        }
+        @media only screen and (min-width: 601px) {
+          p {
+            margin-bottom: 0;
 
-        p:first-child {
-          margin-top: auto;
-        }
+            &:first-child {
+              margin-top: auto;
+            }
 
-        p:last-child {
-          margin-bottom: auto;
+            &:last-child {
+              margin-bottom: auto;
+            }
+          }
         }
       }
 
@@ -535,7 +550,7 @@ export default {
       grid-template-rows: 18rem 14rem;
     }
 
-    @media only screen and (max-width: 1300px) and (min-width: 600px) {
+    @media only screen and (max-width: 1300px) and (min-width: 601px) {
       grid-template-columns: 45% 45%;
       grid-template-rows: 19rem 19rem 19rem;
 
@@ -607,6 +622,19 @@ export default {
 
         &.oss {
           grid-row: 6;
+        }
+
+        h3 {
+          margin-top: 1rem;
+          margin-bottom: 0;
+        }
+
+        p {
+          margin-bottom: 2rem;
+
+          &:first-of-type {
+            margin-top: 2rem;
+          }
         }
       }
     }
