@@ -33,18 +33,21 @@
       <h2>The first custom emoji sharing tool.</h2>
 
       <div class="question-blocks">
-        <div class="question-block">
+        <div class="question-block where">
           <h3>Where</h3>
           <p>
             Use EMOJIGUN to share or embed emojis in
-            <b>any application</b> which supports images.
+            <b>any application or website</b> which supports images.
+          </p>
+          <p>
+            EMOJIGUN is currently available for Windows and Linux.
           </p>
         </div>
 
-        <div class="question-block">
+        <div class="question-block why">
           <h3>Why</h3>
           <p>Use the same emoji library across all chat apps.</p>
-          <p>
+          <p class="mobile-disappear">
             Share custom emojis without having to import them in your chat app.
           </p>
           <p>
@@ -52,12 +55,66 @@
           </p>
         </div>
 
-        <div class="question-block">
+        <div class="question-block what">
           <h3>What</h3>
           <p>
             You can share any images or emojis you want but to get started you
             should consider
             <router-link to="/loader">creating an emoji pack</router-link>
+          </p>
+        </div>
+
+        <div class="question-block features">
+          <p>
+            To request features or to report bugs please create an issue in the
+            <a
+              href="https://github.com/darksworm/emojigun/issues"
+              target="_blank"
+              >github repository</a
+            >.
+          </p>
+          <p>
+            Release notes can be found in the
+            <a
+              href="https://github.com/darksworm/emojigun/releases"
+              target="_blank"
+              >github repository</a
+            >.
+          </p>
+        </div>
+
+        <div class="question-block hobby">
+          <p>
+            EMOJIGUN is a hobby project which was created after Discord removed
+            the freedom of custom global emotes.
+          </p>
+          <p>
+            This project is maintained by
+            <a href="https://github.com/darksworm" target="_blank">darksworm</a>
+            in their free time.
+          </p>
+        </div>
+
+        <div class="question-block oss">
+          <p>
+            EMOJIGUN and this website are <b>Open-source software</b> and are
+            licensed under the
+            <a
+              href="https://github.com/darksworm/emojigun/blob/master/LICENSE.txt"
+              target="_blank"
+              >MIT license</a
+            >.
+          </p>
+
+          <p>
+            You can find the source code and contribute
+            <a href="https://github.com/darksworm/emojigun" target="_blank"
+              >here</a
+            >
+            and
+            <a href="https://github.com/darksworm/emojigun-web" target="_blank"
+              >here</a
+            >.
           </p>
         </div>
       </div>
@@ -115,10 +172,10 @@ export default {
       galleryOpen: false,
       galleryOpenedOnce: false,
       images: [
+        require('../../assets/its-fast.gif'),
         require('../../assets/search-by-typing.gif'),
         require('../../assets/navigate-with-arrow-keys.gif'),
         require('../../assets/advanced-navigation.gif'),
-        require('../../assets/its-fast.gif'),
       ],
       galleryIndex: null,
     };
@@ -347,7 +404,7 @@ export default {
   scroll-snap-align: start;
 
   @media only screen and (min-width: 1920px) {
-    height: 100vh;
+    min-height: 100vh;
   }
   @media only screen and (max-width: 1920px) {
     min-height: 100vh;
@@ -428,46 +485,43 @@ export default {
   }
 
   .question-blocks {
-    display: flex;
-    flex-direction: row;
+    font-size: 1.4rem;
     justify-content: center;
 
-    font-size: 1.4rem;
+    display: grid;
+    grid-template-columns: 36rem 36rem 36rem;
+    grid-template-rows: 18rem 14rem;
+    grid-row-gap: 1rem;
+    grid-column-gap: 1rem;
 
     .question-block {
-      min-width: 360px;
-      max-width: 540px;
+      height: calc(100% - 1rem);
+      width: calc(100% - 2rem);
 
-      padding: 0 16px 16px;
+      padding: 0 1rem 1rem;
+
+      &.oss,
+      &.hobby,
+      &.features {
+        height: calc(100% - 2rem);
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+
+        p {
+          margin-bottom: 0;
+        }
+
+        p:first-child {
+          margin-top: auto;
+        }
+
+        p:last-child {
+          margin-bottom: auto;
+        }
+      }
 
       background: rgba(0, 0, 0, 0.7);
-
-      &:not(:last-child) {
-        margin-right: 12px;
-      }
-
-      @media only screen and (max-width: 1500px) {
-        width: calc(66vw - 32px);
-
-        &:not(:last-child) {
-          margin-right: auto;
-        }
-
-        margin-left: auto;
-        margin-right: auto;
-
-        &:not(:first-child) {
-          margin-top: 2rem;
-        }
-      }
-
-      @media only screen and (min-width: 1400px) {
-        max-width: 460px;
-      }
-
-      @media only screen and (max-width: 800px) {
-        font-size: 2rem;
-      }
 
       @media only screen and (max-width: 400px) {
         min-width: unset;
@@ -477,7 +531,84 @@ export default {
     }
 
     @media only screen and (max-width: 1500px) {
-      flex-direction: column;
+      grid-template-columns: 30% 30% 30%;
+      grid-template-rows: 18rem 14rem;
+    }
+
+    @media only screen and (max-width: 1300px) and (min-width: 600px) {
+      grid-template-columns: 45% 45%;
+      grid-template-rows: 19rem 19rem 19rem;
+
+      .question-block {
+        &.where {
+          grid-row-start: 1;
+        }
+
+        &.features {
+          grid-row: 1;
+          grid-column: 2;
+        }
+
+        &.why {
+          grid-row-start: 2;
+        }
+
+        &.hobby {
+          grid-row: 2;
+          grid-column: 2;
+        }
+
+        &.what {
+          grid-row-start: 3;
+        }
+
+        &.oss {
+          grid-row: 3;
+          grid-column: 2;
+        }
+      }
+    }
+
+    @media only screen and (max-width: 720px) {
+      font-size: 1.5rem;
+      grid-template-rows: 22rem 22rem 22rem;
+
+      .mobile-disappear {
+        display: none;
+      }
+    }
+
+    @media only screen and (max-width: 600px) {
+      font-size: 2rem;
+
+      grid-template-columns: 90%;
+      grid-template-rows: auto;
+
+      .question-block {
+        &.where {
+          grid-row: 1;
+        }
+
+        &.features {
+          grid-row: 2;
+        }
+
+        &.why {
+          grid-row: 3;
+        }
+
+        &.hobby {
+          grid-row: 4;
+        }
+
+        &.what {
+          grid-row: 5;
+        }
+
+        &.oss {
+          grid-row: 6;
+        }
+      }
     }
   }
 }
