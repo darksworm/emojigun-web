@@ -289,7 +289,7 @@ export default {
 
       event('buttons', 'download', this.os);
 
-      if (this.os === 'Mac' || 1 + 1) {
+      if (this.os === 'Mac') {
         let snack = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
         snack.open();
       } else if (!this.osSupported) {
