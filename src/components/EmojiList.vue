@@ -11,24 +11,24 @@
 </template>
 
 <script>
-import Emoji from './Emoji';
+import Emoji from "./Emoji";
 
 export default {
-  name: 'EmojiList',
-  components: {Emoji},
+  name: "EmojiList",
+  components: { Emoji },
   data: () => {
     return {
-      emojis: {},
+      emojis: {}
     };
   },
   computed: {
     haveEmojis() {
       return this.emojis && Object.keys(this.emojis).length > 0;
-    },
+    }
   },
   props: {
     title: String,
-    emojiList: Array,
+    emojiList: Array
   },
   mounted() {
     this.emojis = this.emojiList;
@@ -43,13 +43,13 @@ export default {
     },
     isSelected() {
       return !!this.$children.reduce((acc, x) => acc + x.isSelected(), false);
-    },
+    }
   },
   watch: {
     emojiList(val) {
       this.emojis = val;
-    },
-  },
+    }
+  }
 };
 </script>
 

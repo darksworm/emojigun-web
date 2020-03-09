@@ -1,14 +1,14 @@
 <script>
-import EmojiList from './EmojiList';
+import EmojiList from "./EmojiList";
 
 export default {
-  name: 'CustomEmojiList',
-  extends: EmojiList,
+  name: "CustomEmojiList",
+  extends: EmojiList
 };
 </script>
 
 <style lang="scss">
-@import '../styles/colors.scss';
+@import "../styles/colors.scss";
 
 $emoji-size: 128px;
 

@@ -7,7 +7,7 @@
 
       <div
         class="back-button"
-        :style="{marginLeft: headerHorizontalMargin + 'px'}"
+        :style="{ marginLeft: headerHorizontalMargin + 'px' }"
       >
         <router-link
           to="/"
@@ -23,8 +23,8 @@
 
       <div
         class="header-right"
-        :class="{active: selectedEmojiCount > 0}"
-        :style="{marginRight: headerHorizontalMargin + 'px'}"
+        :class="{ active: selectedEmojiCount > 0 }"
+        :style="{ marginRight: headerHorizontalMargin + 'px' }"
       >
         <div class="selectedEmojiCount">
           {{ selectedEmojiCount }} {{ selectedEmojiCountWord }} selected
@@ -60,31 +60,31 @@
 </template>
 
 <script>
-import CustomEmojiList from '../components/CustomEmojiList';
-import SelectedEmojiList from '../components/SelectedEmojiList';
-import DownloadTopEmojisButton from '../components/DownloadTopEmojisButton';
-import Loader from '../components/Loader';
-import {event} from 'vue-analytics';
+import CustomEmojiList from "../components/CustomEmojiList";
+import SelectedEmojiList from "../components/SelectedEmojiList";
+import DownloadTopEmojisButton from "../components/DownloadTopEmojisButton";
+import Loader from "../components/Loader";
+import { event } from "vue-analytics";
 
 export default {
-  name: 'Custom',
+  name: "Custom",
   components: {
     CustomEmojiList,
     SelectedEmojiList,
     DownloadTopEmojisButton,
-    Loader,
+    Loader
   },
   data: () => {
     return {
-      searchValue: '',
-      nextPageURL: '',
+      searchValue: "",
+      nextPageURL: "",
       requestedChannels: {},
       emojiList: {},
       searchTimeout: null,
       loadingNextPage: false,
       hasNextPage: false,
       showBackToTop: false,
-      headerHorizontalMargin: 56.5,
+      headerHorizontalMargin: 56.5
     };
   },
   computed: {
@@ -92,43 +92,43 @@ export default {
       return Object.values(this.$store.state.selectedEmojis).length;
     },
     selectedEmojiCountWord() {
-      return this.selectedEmojiCount == 1 ? 'emoji' : 'emojis';
-    },
+      return this.selectedEmojiCount == 1 ? "emoji" : "emojis";
+    }
   },
   mounted() {
     this.focusInput();
-    this.loadEmojisWithFilter('');
+    this.loadEmojisWithFilter("");
 
-    let appShadow = document.getElementById('appShadow');
-    appShadow.classList.add('dark');
+    let appShadow = document.getElementById("appShadow");
+    appShadow.classList.add("dark");
 
-    document.addEventListener('scroll', this.onScroll);
-    document.addEventListener('onresize', this.onResize);
+    document.addEventListener("scroll", this.onScroll);
+    document.addEventListener("onresize", this.onResize);
 
-    let app = document.getElementById('app');
-    app.classList.add('custom');
+    let app = document.getElementById("app");
+    app.classList.add("custom");
 
     this.onScroll();
   },
   destroyed() {
-    let appShadow = document.getElementById('appShadow');
-    appShadow.classList.remove('dark');
+    let appShadow = document.getElementById("appShadow");
+    appShadow.classList.remove("dark");
 
-    document.removeEventListener('scroll', this.onScroll);
-    document.removeEventListener('resize', this.onResize);
+    document.removeEventListener("scroll", this.onScroll);
+    document.removeEventListener("resize", this.onResize);
 
-    let app = document.getElementById('app');
-    app.classList.remove('custom');
+    let app = document.getElementById("app");
+    app.classList.remove("custom");
   },
   methods: {
     goBackToTop() {
-      window.scrollTo({top: 0, behavior: 'smooth'});
+      window.scrollTo({ top: 0, behavior: "smooth" });
       this.showBackToTop = false;
     },
     downloadSelected() {
-      event('emojiloader', 'download-selected-click');
+      event("emojiloader", "download-selected-click");
 
-      this.$store.commit('generationStarted');
+      this.$store.commit("generationStarted");
 
       this.$refs.selectedList.download().then(
         function() {
@@ -136,16 +136,16 @@ export default {
 
           setTimeout(
             function() {
-              this.$store.commit('generationEnded');
-              event('emojiloader', 'downloaded-selected');
+              this.$store.commit("generationEnded");
+              event("emojiloader", "downloaded-selected");
             }.bind(this),
-            500,
+            500
           );
-        }.bind(this),
+        }.bind(this)
       );
     },
     onResize() {
-      let w = document.getElementById('custom').offsetWidth - 15;
+      let w = document.getElementById("custom").offsetWidth - 15;
       let padding = (w - Math.floor(w / 128) * 128) / 2;
 
       if (padding == 0) {
@@ -164,13 +164,13 @@ export default {
 
         this.$http.get(this.nextPageURL).then(
           function(response) {
-            event('emojiloader', 'load-next-page');
+            event("emojiloader", "load-next-page");
 
             for (let emoticon of response.body.emoticons) {
-              if (typeof this.emojiList[emoticon.name] === 'undefined') {
+              if (typeof this.emojiList[emoticon.name] === "undefined") {
                 this.emojiList[emoticon.name] = {
                   name: emoticon.name,
-                  urls: emoticon.urls,
+                  urls: emoticon.urls
                 };
               }
             }
@@ -179,25 +179,25 @@ export default {
             this.loadingNextPage = false;
 
             this.$forceUpdate();
-          }.bind(this),
+          }.bind(this)
         );
       }
 
       this.showBackToTop = window.pageYOffset > 100;
     },
     applyNextPageURL(url) {
-      if (typeof url !== 'undefined') {
-        this.nextPageURL = url + '&q=' + this.searchValue;
+      if (typeof url !== "undefined") {
+        this.nextPageURL = url + "&q=" + this.searchValue;
         this.hasNextPage = true;
       } else {
         this.hasNextPage = false;
-        this.nextPageURL = '';
+        this.nextPageURL = "";
       }
     },
     getDistFromBottom() {
       var scrollPosition = window.pageYOffset;
       var windowSize = window.innerHeight;
-      var bodyHeight = document.getElementById('custom').offsetHeight;
+      var bodyHeight = document.getElementById("custom").offsetHeight;
 
       return Math.max(bodyHeight - (scrollPosition + windowSize), 0);
     },
@@ -206,23 +206,23 @@ export default {
       this.loadingNextPage = true;
 
       let url =
-        'https://api.frankerfacez.com/v1/emoticons?sort=count&per_page=100';
+        "https://api.frankerfacez.com/v1/emoticons?sort=count&per_page=100";
       if (filter) {
-        url = url + '&q=' + filter;
+        url = url + "&q=" + filter;
       }
 
       if (filter) {
-        event('emojiloader', 'search-query', filter);
+        event("emojiloader", "search-query", filter);
       }
 
       return this.$http
         .get(url)
         .then(function(response) {
           for (let emoticon of response.body.emoticons) {
-            if (typeof this.emojiList[emoticon.name] === 'undefined') {
+            if (typeof this.emojiList[emoticon.name] === "undefined") {
               this.emojiList[emoticon.name] = {
                 name: emoticon.name,
-                urls: emoticon.urls,
+                urls: emoticon.urls
               };
             }
           }
@@ -234,12 +234,12 @@ export default {
           this.$forceUpdate();
         })
         .catch(() => {
-          this.$emit('not-found', this.channelName);
+          this.$emit("not-found", this.channelName);
         });
     },
     focusInput() {
       this.$refs.input.focus();
-    },
+    }
   },
   watch: {
     searchValue: function(newVal) {
@@ -253,15 +253,15 @@ export default {
         function() {
           this.loadEmojisWithFilter(newVal);
         }.bind(this),
-        600,
+        600
       );
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style lang="scss">
-@import '../styles/colors.scss';
+@import "../styles/colors.scss";
 html button {
   border-radius: 4px;
 }
@@ -383,7 +383,7 @@ html button {
   z-index: 2;
 
   &:after {
-    content: '';
+    content: "";
     width: 0;
     height: 0;
     border-left: 25px solid transparent;

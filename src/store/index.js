@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import {event} from 'vue-analytics';
+import Vue from "vue";
+import Vuex from "vuex";
+import { event } from "vue-analytics";
 
 Vue.use(Vuex);
 
@@ -8,36 +8,36 @@ export default new Vuex.Store({
   state: {
     selectedEmojis: {},
     generatingZip: false,
-    nextTransition: '',
+    nextTransition: ""
   },
   mutations: {
     selectEmoji(state, emoji) {
       Vue.set(state.selectedEmojis, emoji.url, emoji);
-      event('emojiloader', 'select-emoji', emoji.name);
+      event("emojiloader", "select-emoji", emoji.name);
     },
     deselectEmoji(state, emoji) {
       Vue.delete(state.selectedEmojis, emoji.url);
-      event('emojiloader', 'deselect-emoji', emoji.name);
+      event("emojiloader", "deselect-emoji", emoji.name);
     },
     clearSelection(state) {
-      Vue.delete(state, 'selectedEmojis');
-      Vue.set(state, 'selectedEmojis', {});
+      Vue.delete(state, "selectedEmojis");
+      Vue.set(state, "selectedEmojis", {});
     },
     generationStarted(state) {
-      Vue.set(state, 'generatingZip', true);
+      Vue.set(state, "generatingZip", true);
     },
     generationEnded(state) {
-      Vue.set(state, 'generatingZip', false);
+      Vue.set(state, "generatingZip", false);
     },
     slideLeftForNextTransition(state) {
-      Vue.set(state, 'nextTransition', 'slide-left');
+      Vue.set(state, "nextTransition", "slide-left");
     },
     slideRightForNextTransition(state) {
-      Vue.set(state, 'nextTransition', 'slide-right');
+      Vue.set(state, "nextTransition", "slide-right");
     },
     skipNextTransition(state) {
-      Vue.set(state, 'nextTransition', null);
-    },
+      Vue.set(state, "nextTransition", null);
+    }
   },
   getters: {
     isEmojiSelectedByURL: state => url => {
@@ -54,8 +54,8 @@ export default new Vuex.Store({
     },
     nextTransition(state) {
       return state.nextTransition;
-    },
+    }
   },
   actions: {},
-  modules: {},
+  modules: {}
 });

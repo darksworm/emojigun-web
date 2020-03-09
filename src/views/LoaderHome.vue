@@ -26,27 +26,27 @@
 </template>
 
 <script>
-import DownloadTopEmojisButton from '../components/DownloadTopEmojisButton';
+import DownloadTopEmojisButton from "../components/DownloadTopEmojisButton";
 
 export default {
-  name: 'LoaderHome',
+  name: "LoaderHome",
   mounted() {
-    this.$store.commit('slideLeftForNextTransition');
+    this.$store.commit("slideLeftForNextTransition");
   },
-  components: {DownloadTopEmojisButton},
+  components: { DownloadTopEmojisButton },
   methods: {
     openCustom() {
-      document.getElementById('loader-home').style.opacity = 0;
+      document.getElementById("loader-home").style.opacity = 0;
 
-      this.$store.commit('skipNextTransition');
-      this.$router.push('/custom');
-    },
-  },
+      this.$store.commit("skipNextTransition");
+      this.$router.push("/custom");
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/colors.scss';
+@import "../styles/colors.scss";
 #loader-home {
   z-index: 0;
   width: 100%;

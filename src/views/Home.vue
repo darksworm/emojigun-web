@@ -1,12 +1,12 @@
 <template>
-  <div id="home" :class="{'scroll-snap-disabled': snapDisabled}">
+  <div id="home" :class="{ 'scroll-snap-disabled': snapDisabled }">
     <div class="welcome scroll-block scroll-block-center" id="welcome">
       <div class="scroll-block-wrapper">
         <h1>EMOJI<span class="alt-color">GUN</span></h1>
         <h4>Sharing custom emojis made easy</h4>
         <button
           class="get-started-btn"
-          :class="{animated: buttonAnimation}"
+          :class="{ animated: buttonAnimation }"
           @click="downloadForOS"
         >
           <span v-if="osSupported">Download for {{ os }}</span>
@@ -141,7 +141,7 @@
       :options="{
         onslideend: onGalleryImg,
         carousel: false,
-        continuous: false,
+        continuous: false
       }"
       @close="closeGallery"
     ></vue-gallery>
@@ -158,26 +158,26 @@
 </template>
 
 <script>
-import VueGallery from 'vue-gallery';
-import {event} from 'vue-analytics';
-import {MDCSnackbar} from '@material/snackbar';
-import '@material/snackbar/dist/mdc.snackbar.min.css';
+import VueGallery from "vue-gallery";
+import { event } from "vue-analytics";
+import { MDCSnackbar } from "@material/snackbar";
+import "@material/snackbar/dist/mdc.snackbar.min.css";
 
 export default {
-  name: 'Home',
+  name: "Home",
   mounted() {
     setTimeout(
       function() {
         this.buttonAnimation = !this.buttonClicked;
       }.bind(this),
-      3500,
+      3500
     );
 
     document
-      .getElementById('home')
-      .addEventListener('scroll', this.onScroll.bind(this));
+      .getElementById("home")
+      .addEventListener("scroll", this.onScroll.bind(this));
 
-    this.$store.commit('slideRightForNextTransition');
+    this.$store.commit("slideRightForNextTransition");
   },
   data() {
     return {
@@ -188,61 +188,61 @@ export default {
       galleryOpen: false,
       galleryOpenedOnce: false,
       images: [
-        require('../../assets/its-fast.gif'),
-        require('../../assets/search-by-typing.gif'),
-        require('../../assets/navigate-with-arrow-keys.gif'),
-        require('../../assets/advanced-navigation.gif'),
+        require("../../assets/its-fast.gif"),
+        require("../../assets/search-by-typing.gif"),
+        require("../../assets/navigate-with-arrow-keys.gif"),
+        require("../../assets/advanced-navigation.gif")
       ],
       galleryIndex: null,
       snapDisabled: false,
-      previousScrollTop: 0,
+      previousScrollTop: 0
     };
   },
   computed: {
     os() {
-      let os = 'Unknown';
+      let os = "Unknown";
 
-      if (window.navigator.userAgent.indexOf('Windows') !== -1) {
-        os = 'Windows';
+      if (window.navigator.userAgent.indexOf("Windows") !== -1) {
+        os = "Windows";
       }
-      if (window.navigator.userAgent.indexOf('Mac') !== -1) {
-        os = 'Mac';
+      if (window.navigator.userAgent.indexOf("Mac") !== -1) {
+        os = "Mac";
       }
       if (
-        window.navigator.userAgent.indexOf('Linux') !== -1 ||
-        window.navigator.userAgent.indexOf('X11') !== -1
+        window.navigator.userAgent.indexOf("Linux") !== -1 ||
+        window.navigator.userAgent.indexOf("X11") !== -1
       ) {
-        os = 'Linux';
+        os = "Linux";
       }
 
       return os;
     },
     osSupported() {
-      return ['Windows', 'Linux', 'Mac'].indexOf(this.os) !== -1;
-    },
+      return ["Windows", "Linux", "Mac"].indexOf(this.os) !== -1;
+    }
   },
   destroyed() {
     document
-      .getElementById('home')
-      .removeEventListener('scroll', this.onScroll);
+      .getElementById("home")
+      .removeEventListener("scroll", this.onScroll);
   },
   methods: {
     closeGallery() {
       this.galleryOpen = false;
       this.galleryIndex = null;
-      document.getElementById('home').style.overflowY = 'scroll';
+      document.getElementById("home").style.overflowY = "scroll";
     },
     showGallery() {
       this.galleryIndex = 1;
       this.galleryOpenedOnce = true;
       this.galleryOpen = true;
 
-      document.getElementById('home').style.overflowY = 'hidden';
+      document.getElementById("home").style.overflowY = "hidden";
 
-      event('buttons', 'see-it-in-action');
+      event("buttons", "see-it-in-action");
     },
     onScroll() {
-      let homeScrollTop = document.getElementById('home').scrollTop;
+      let homeScrollTop = document.getElementById("home").scrollTop;
       this.bounceHidden = homeScrollTop > 0;
 
       if (homeScrollTop >= window.innerHeight - 1) {
@@ -257,68 +257,68 @@ export default {
     scrollToMore(smooth = true) {
       this.scrollTo(window.innerHeight * 1, smooth);
 
-      event('buttons', 'scroll-to-more');
+      event("buttons", "scroll-to-more");
     },
     scrollToTop() {
       this.scrollTo(0);
       this.buttonAnimation = false;
       setTimeout(() => (this.buttonAnimation = true), 1000);
 
-      event('buttons', 'scroll-to-more');
+      event("buttons", "scroll-to-more");
     },
     scrollTo(height, smooth = true) {
-      document.getElementById('home').scrollTo({
+      document.getElementById("home").scrollTo({
         top: height,
         left: 0,
-        behavior: smooth ? 'smooth' : 'auto',
+        behavior: smooth ? "smooth" : "auto"
       });
       this.buttonClicked = true;
     },
     downloadForOS() {
-      let url = '';
+      let url = "";
       this.buttonClicked = true;
 
-      if (this.os === 'Linux') {
-        url = 'https://github.com/darksworm/imgsel/blob/master/INSTALL.md';
+      if (this.os === "Linux") {
+        url = "https://github.com/darksworm/imgsel/blob/master/INSTALL.md";
       }
 
-      if (this.os === 'Windows') {
+      if (this.os === "Windows") {
         url =
-          'https://github.com/darksworm/imgsel/releases/download/v0.2.0/imgsel.exe';
+          "https://github.com/darksworm/imgsel/releases/download/v0.2.0/imgsel.exe";
       }
 
-      event('buttons', 'download', this.os);
+      event("buttons", "download", this.os);
 
-      if (this.os === 'Mac') {
-        let snack = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
+      if (this.os === "Mac") {
+        let snack = new MDCSnackbar(document.querySelector(".mdc-snackbar"));
         snack.open();
       } else if (!this.osSupported) {
         this.scrollToMore();
         return;
       }
 
-      if (url != '') {
-        let win = window.open(url, '_blank');
+      if (url != "") {
+        let win = window.open(url, "_blank");
         win.focus();
       }
     },
     onGalleryImg() {
       if (this.galleryOpen) {
-        event('gallery', 'switch-image');
+        event("gallery", "switch-image");
       }
-    },
+    }
   },
-  components: {VueGallery},
+  components: { VueGallery },
   watch: {
     bottomVisitedOnce() {
-      event('view', 'more');
-    },
-  },
+      event("view", "more");
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/colors.scss';
+@import "../styles/colors.scss";
 #home {
   z-index: 0;
 
@@ -702,7 +702,7 @@ export default {
 
   &:before,
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     background: white;
     border-radius: 0.2rem;
