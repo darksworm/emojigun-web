@@ -1,7 +1,9 @@
 <template>
   <div>
     <div id="custom-header">
-      <input ref="input" v-model="searchValue" placeholder="search" />
+      <div class="search">
+        <input ref="input" v-model="searchValue" placeholder="search" />
+      </div>
 
       <div
         class="back-button"
@@ -14,8 +16,8 @@
         >
           <button>Back to EMOJIGUN</button>
         </router-link>
-        <DownloadTopEmojisButton>
-          <button>Download top emojis</button>
+        <DownloadTopEmojisButton class="top-emojis">
+          <button>Get top emojis</button>
         </DownloadTopEmojisButton>
       </div>
 
@@ -62,7 +64,7 @@ import CustomEmojiList from '../components/CustomEmojiList';
 import SelectedEmojiList from '../components/SelectedEmojiList';
 import DownloadTopEmojisButton from '../components/DownloadTopEmojisButton';
 import Loader from '../components/Loader';
-import { event } from 'vue-analytics';
+import {event} from 'vue-analytics';
 
 export default {
   name: 'Custom',
@@ -161,7 +163,7 @@ export default {
         this.loadingNextPage = true;
 
         this.$http.get(this.nextPageURL).then(
-          function (response) {
+          function(response) {
             event('emojiloader', 'load-next-page');
 
             for (let emoticon of response.body.emoticons) {
@@ -260,6 +262,9 @@ export default {
 
 <style lang="scss">
 @import '../styles/colors.scss';
+html button {
+  border-radius: 4px;
+}
 
 #custom {
   z-index: 0;
@@ -286,23 +291,24 @@ export default {
 
   display: flex;
 
-  input {
+  .search {
     max-width: 500px;
-    text-align: center;
     position: absolute;
     left: 50%;
     top: 50%;
+    width: 100%;
 
     transform: translate(-50%, -50%);
 
-    border: none;
-    outline: none;
-    border-radius: 8px;
-
-    padding: 6px 12px;
-
-    background: rgba($color-light, 0.9);
-    color: $color-dark;
+    input {
+      padding: 6px 12px;
+      text-align: center;
+      border: none;
+      outline: none;
+      border-radius: 8px;
+      background: rgba($color-light, 0.9);
+      color: $color-dark;
+    }
   }
 
   .back-button {
@@ -326,6 +332,41 @@ export default {
           background: darken(grey, 5%);
         }
       }
+    }
+  }
+
+  @media only screen and (max-width: 1200px) {
+    .search {
+      position: relative;
+      top: unset;
+      left: unset;
+      transform: unset;
+      max-height: 28px;
+      order: 2;
+      margin: auto;
+      width: auto;
+      flex-grow: 1;
+
+      padding-left: 16px;
+      padding-right: 16px;
+
+      input {
+        width: calc(100% - 24px);
+      }
+    }
+
+    .back-button {
+      order: 1;
+    }
+
+    .header-right {
+      order: 3;
+    }
+  }
+
+  @media only screen and (max-width: 700px) {
+    .top-emojis {
+      display: none;
     }
   }
 }
@@ -363,8 +404,8 @@ export default {
 }
 
 .emojiList {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>
