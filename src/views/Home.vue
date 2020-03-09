@@ -9,7 +9,8 @@
           :class="{animated: buttonAnimation}"
           @click="downloadForOS"
         >
-          Download for {{ os }}
+          <span v-if="osSupported">Download for {{ os }}</span>
+          <span v-else>Learn more</span>
         </button>
         <router-link
           to="/loader"
@@ -120,7 +121,11 @@
       </div>
 
       <div class="bottom-btns">
-        <button class="bottom-get-started-btn" @click="scrollToTop">
+        <button
+          class="bottom-get-started-btn"
+          @click="scrollToTop"
+          v-if="osSupported"
+        >
           Get started
         </button>
 
@@ -140,12 +145,23 @@
       }"
       @close="closeGallery"
     ></vue-gallery>
+
+    <div class="mdc-snackbar">
+      <div class="mdc-snackbar__surface">
+        <div class="mdc-snackbar__label" role="status" aria-live="polite">
+          Sorry, EMOJIGUN is currently available only on Windows and Linux but
+          your interest has been noted.
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import VueGallery from 'vue-gallery';
 import {event} from 'vue-analytics';
+import {MDCSnackbar} from '@material/snackbar';
+import '@material/snackbar/dist/mdc.snackbar.min.css';
 
 export default {
   name: 'Home',
@@ -192,10 +208,10 @@ export default {
       if (window.navigator.userAgent.indexOf('Mac') !== -1) {
         os = 'Mac';
       }
-      if (window.navigator.userAgent.indexOf('X11') !== -1) {
-        os = 'UNIX';
-      }
-      if (window.navigator.userAgent.indexOf('Linux') !== -1) {
+      if (
+        window.navigator.userAgent.indexOf('Linux') !== -1 ||
+        window.navigator.userAgent.indexOf('X11') !== -1
+      ) {
         os = 'Linux';
       }
 
@@ -259,7 +275,7 @@ export default {
       this.buttonClicked = true;
     },
     downloadForOS() {
-      let url;
+      let url = '';
       this.buttonClicked = true;
 
       if (this.os === 'Linux') {
@@ -273,8 +289,18 @@ export default {
 
       event('buttons', 'download', this.os);
 
-      let win = window.open(url, '_blank');
-      win.focus();
+      if (this.os === 'Mac') {
+        let snack = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
+        snack.open();
+      } else if (!this.osSupported) {
+        this.scrollToMore();
+        return;
+      }
+
+      if (url != '') {
+        let win = window.open(url, '_blank');
+        win.focus();
+      }
     },
     onGalleryImg() {
       if (this.galleryOpen) {
@@ -828,5 +854,13 @@ export default {
   .bounce {
     display: none;
   }
+}
+
+.mdc-snackbar__label {
+  font-size: 16px;
+}
+
+button {
+    border-radius: 8px;
 }
 </style>

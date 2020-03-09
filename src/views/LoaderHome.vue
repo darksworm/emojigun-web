@@ -166,4 +166,8 @@ export default {
     opacity: 0.9;
   }
 }
+
+button {
+  border-radius: 8px;
+}
 </style>
