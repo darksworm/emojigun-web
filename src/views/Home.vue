@@ -218,7 +218,7 @@ export default {
       return os;
     },
     osSupported() {
-      return ['Windows', 'Linux'].indexOf(this.os) !== -1;
+      return ['Windows', 'Linux', 'Mac'].indexOf(this.os) !== -1;
     },
   },
   destroyed() {
@@ -289,7 +289,7 @@ export default {
 
       event('buttons', 'download', this.os);
 
-      if (this.os === 'Mac') {
+      if (this.os === 'Mac' || 1 + 1) {
         let snack = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
         snack.open();
       } else if (!this.osSupported) {
@@ -861,6 +861,10 @@ export default {
 }
 
 button {
-    border-radius: 8px;
+  border-radius: 8px;
+}
+
+.mdc-snackbar:not(.mdc-snackbar--open) {
+  display: none;
 }
 </style>
