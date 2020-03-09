@@ -815,4 +815,18 @@ export default {
     transform: rotate(-3.5deg);
   }
 }
+
+@media only screen and (max-height: 560px) {
+  .bounce-click-box {
+    height: 60px;
+    top: calc(100% - 60px);
+  }
+}
+
+@media only screen and (max-height: 440px) {
+  .bounce-click-box,
+  .bounce {
+    display: none;
+  }
+}
 </style>
