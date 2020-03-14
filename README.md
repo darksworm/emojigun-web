@@ -1,4 +1,7 @@
-# emojiloader
+# emojigun-web
+
+The website for emojigun.
+https://emojigun.com
 
 ## Project setup
 ```
