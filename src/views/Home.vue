@@ -367,7 +367,7 @@ export default {
 
       if (this.os === 'Windows') {
         url =
-          'https://github.com/darksworm/imgsel/releases/download/v0.2.0/imgsel.exe';
+          'https://github.com/darksworm/imgsel/releases/latest/download/emojigun.exe';
       }
 
       event('buttons', 'download', this.os);
