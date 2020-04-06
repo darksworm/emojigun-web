@@ -1,8 +1,11 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { event } from "vue-analytics";
+import VueSnackbar from "vue-snack";
+import "vue-snack/dist/vue-snack.min.css";
 
 Vue.use(Vuex);
+Vue.use(VueSnackbar, { position: "bottom", time: 10000 });
 
 export default new Vuex.Store({
   state: {

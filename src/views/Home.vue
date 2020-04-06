@@ -185,15 +185,6 @@
       }"
       @close="closeGallery"
     ></vue-gallery>
-
-    <div class="mdc-snackbar">
-      <div class="mdc-snackbar__surface">
-        <div class="mdc-snackbar__label" role="status" aria-live="polite">
-          Sorry, EMOJIGUN is currently available only on Windows and Linux but
-          your interest has been noted.
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -201,8 +192,6 @@
 import VueGallery from 'vue-gallery';
 import Loader from '../components/Loader';
 import {event} from 'vue-analytics';
-import {MDCSnackbar} from '@material/snackbar';
-import '@material/snackbar/dist/mdc.snackbar.min.css';
 
 export default {
   name: 'Home',
@@ -373,8 +362,11 @@ export default {
       event('buttons', 'download', this.os);
 
       if (this.os === 'Mac') {
-        let snack = new MDCSnackbar(document.querySelector('.mdc-snackbar'));
-        snack.open();
+        this.$snack.show({
+          text:
+            'Sorry, EMOJIGUN is currently available only on Windows and Linux but your interest has been noted.',
+          button: 'OK',
+        });
       } else if (!this.osSupported) {
         this.scrollToMore();
         return;
@@ -955,16 +947,8 @@ export default {
   }
 }
 
-.mdc-snackbar__label {
-  font-size: 16px;
-}
-
 button {
   border-radius: 8px;
-}
-
-.mdc-snackbar:not(.mdc-snackbar--open) {
-  display: none;
 }
 
 .modal {
