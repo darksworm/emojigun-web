@@ -1,17 +1,31 @@
 <template>
-  <div id="home" :class="{'scroll-snap-disabled': snapDisabled}">
+  <div
+    id="home"
+    :class="{'scroll-snap-disabled': snapDisabled, mobile: isMobileDevice}"
+  >
     <div class="welcome scroll-block scroll-block-center" id="welcome">
       <div class="scroll-block-wrapper">
         <h1>EMOJI<span class="alt-color">GUN</span></h1>
         <h4>Sharing custom emojis made easy</h4>
-        <button
-          class="get-started-btn"
-          :class="{animated: buttonAnimation}"
-          @click="downloadForOS"
-        >
-          <span v-if="osSupported">Download for {{ os }}</span>
-          <span v-else>Learn more</span>
-        </button>
+        <template v-if="isMobileDevice">
+          <button
+            class="get-started-btn"
+            :class="{animated: buttonAnimation}"
+            @click="showGallery"
+          >
+            <span>See it in action</span>
+          </button>
+        </template>
+        <template v-else>
+          <button
+            class="get-started-btn"
+            :class="{animated: buttonAnimation}"
+            @click="downloadForOS"
+          >
+            <span v-if="osSupported">Download for {{ os }}</span>
+            <span v-else>Learn more</span>
+          </button>
+        </template>
         <router-link
           to="/loader"
           @click="event('buttons', 'get-emojis')"
@@ -22,7 +36,7 @@
         </router-link>
       </div>
 
-      <template v-if="!bounceHidden">
+      <template>
         <div class="bounce-click-box" @click="scrollToMore"></div>
         <div class="bounce">
           <a class="arrow down" @click.prevent="scrollToMore"></a>
@@ -160,7 +174,7 @@
         </div>
       </div>
 
-      <div class="bottom-btns">
+      <div class="bottom-btns" v-if="!isMobileDevice">
         <button
           class="bottom-get-started-btn"
           @click="scrollToTop"
@@ -192,6 +206,7 @@
 import VueGallery from 'vue-gallery';
 import Loader from '../components/Loader';
 import {event} from 'vue-analytics';
+import isMobile from 'ismobilejs';
 
 export default {
   name: 'Home',
@@ -213,7 +228,6 @@ export default {
     return {
       buttonAnimation: false,
       buttonClicked: false,
-      bounceHidden: false,
       bottomVisitedOnce: false,
       galleryOpen: false,
       galleryOpenedOnce: false,
@@ -235,6 +249,9 @@ export default {
     };
   },
   computed: {
+    isMobileDevice() {
+      return isMobile().any;
+    },
     os() {
       let os = 'Unknown';
 
@@ -315,7 +332,9 @@ export default {
     },
     onScroll() {
       let homeScrollTop = document.getElementById('home').scrollTop;
-      this.bounceHidden = homeScrollTop > 0;
+      if (homeScrollTop == 0) {
+        return;
+      }
 
       if (homeScrollTop >= window.innerHeight - 1) {
         this.bottomVisitedOnce = true;
@@ -411,6 +430,7 @@ export default {
 <style lang="scss" scoped>
 @import '../styles/colors.scss';
 #home {
+  position: relative;
   z-index: 0;
 
   width: 100%;
@@ -996,5 +1016,9 @@ button {
 
 .margin-auto {
   margin: auto;
+}
+
+#home.mobile .more {
+  padding-bottom: 16px;
 }
 </style>
