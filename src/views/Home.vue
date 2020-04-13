@@ -366,7 +366,7 @@ export default {
         this.bottomVisitedOnce = true;
       }
 
-      this.snapDisabled = homeScrollTop >= window.innerHeight - 1;
+      this.snapDisabled = homeScrollTop > window.innerHeight;
       this.previousScrollTop = homeScrollTop;
     },
     scrollToMore(smooth = true) {
