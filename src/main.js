@@ -17,6 +17,7 @@ if (config.env === 'production') {
   Vue.use(VueAnalytics, {
     id: config.googleAnalyticsID,
     router,
+    fields: {storage: 'none'},
     beforeFirstHit() {
       Vue.$ga.set('anonymizeIp', true);
     },
@@ -31,3 +32,16 @@ new Vue({
   store,
   render: h => h(App),
 }).$mount('#app');
+
+// delete all cookies that were set previously (and shouldn't have been)
+setTimeout(function() {
+  try {
+    document.cookie.split(';').forEach(function(c) {
+      document.cookie = c
+        .replace(/^ +/, '')
+        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+    });
+  } catch (err) {
+    // ..
+  }
+}, 500);
