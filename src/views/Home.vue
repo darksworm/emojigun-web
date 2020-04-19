@@ -183,7 +183,7 @@
             <a
               href="https://github.com/darksworm/emojigun/blob/master/LICENSE.txt"
               target="_blank"
-              >MIT license</a
+              >GPL-3.0 license</a
             >.
           </p>
 
