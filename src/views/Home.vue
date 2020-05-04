@@ -399,7 +399,7 @@ export default {
 
       if (this.os === 'Windows') {
         url =
-          'https://github.com/darksworm/imgsel/releases/latest/download/emojigun.zip';
+          'https://version.emojigun.com/latest/emojigun-setup.exe';
       }
 
       event('buttons', 'download', this.os);
