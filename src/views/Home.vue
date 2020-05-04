@@ -43,14 +43,27 @@
           </button>
         </template>
         <template v-else>
-          <button
-            class="get-started-btn"
-            :class="{animated: buttonAnimation}"
-            @click="downloadForOS"
-          >
-            <span v-if="osSupported">Download for {{ os }}</span>
-            <span v-else>Learn more</span>
-          </button>
+          <div class="left-column">
+            <button
+              class="get-started-btn"
+              :class="{animated: buttonAnimation}"
+              @click="downloadForCurrentOS"
+            >
+              <span v-if="osSupported">Download for {{ os }}</span>
+              <span v-else>Learn more</span>
+            </button>
+            <span class="other-os" @click.prevent="1">
+              <template v-if="!osSupported">
+                available for Windows and Linux
+              </template>
+              <template v-else-if="os == 'Windows'">
+                also available for Linux
+              </template>
+              <template v-else-if="os == 'Linux'">
+                also available for Windows
+              </template>
+            </span>
+          </div>
         </template>
         <router-link
           to="/loader"
@@ -389,22 +402,21 @@ export default {
       });
       this.buttonClicked = true;
     },
-    downloadForOS() {
+    downloadForOS(os) {
       let url = '';
       this.buttonClicked = true;
 
-      if (this.os === 'Linux') {
+      if (os === 'Linux') {
         url = 'https://github.com/darksworm/imgsel/blob/master/INSTALL.md';
       }
 
-      if (this.os === 'Windows') {
-        url =
-          'https://version.emojigun.com/latest/emojigun-setup.exe';
+      if (os === 'Windows') {
+        url = 'https://version.emojigun.com/latest/emojigun-setup.exe';
       }
 
-      event('buttons', 'download', this.os);
+      event('buttons', 'download', os);
 
-      if (this.os === 'Mac') {
+      if (os === 'Mac') {
         this.$snack.show({
           text:
             'Sorry, EMOJIGUN is currently available only on Windows and Linux but your interest has been noted.',
@@ -419,6 +431,9 @@ export default {
         let win = window.open(url, '_blank');
         win.focus();
       }
+    },
+    downloadForCurrentOS() {
+      this.downloadForOS(this.os);
     },
     onGalleryImg() {
       if (this.galleryOpen) {
@@ -517,6 +532,11 @@ export default {
     }
   }
 
+  .left-column {
+    display: inline-block;
+    position: relative;
+  }
+
   .get-started-btn {
     background: $color-complementary-3;
     color: $color-complementary-1;
@@ -539,6 +559,22 @@ export default {
 
     @media screen and (max-width: 400px) {
       width: 80vw;
+    }
+  }
+
+  .other-os {
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    width: 100%;
+
+    font-size: 1.5rem;
+    margin-top: 6px;
+    color: white;
+
+    @media screen and (max-width: 600px) {
+      display: none;
     }
   }
 
