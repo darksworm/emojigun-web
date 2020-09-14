@@ -284,6 +284,7 @@ export default {
       subscribeFail: false,
       invalidEmail: false,
       subscribing: false,
+      autoScrolling: false,
       email: '',
     };
   },
@@ -370,6 +371,10 @@ export default {
       event('buttons', 'see-it-in-action');
     },
     onScroll() {
+      if (this.autoScrolling) {
+        return;
+      }
+
       let homeScrollTop = document.getElementById('home').scrollTop;
       if (homeScrollTop == 0) {
         return;
@@ -395,12 +400,19 @@ export default {
       event('buttons', 'scroll-to-more');
     },
     scrollTo(height, smooth = true) {
+      this.autoScrolling = true;
+
       document.getElementById('home').scrollTo({
         top: height,
         left: 0,
         behavior: smooth ? 'smooth' : 'auto',
       });
       this.buttonClicked = true;
+
+      setTimeout(() => {
+        this.autoScrolling = false;
+        this.onScroll();
+      }, 500);
     },
     downloadForOS(os) {
       let url = '';
@@ -509,13 +521,13 @@ export default {
   }
 
   h2 {
-    font-size: 5.5rem;
+    font-size: 5rem;
 
-    @media screen and (max-width: 540px) {
-      font-size: 4.5rem;
+    @media screen and (max-width: 700px) {
+      font-size: 8vw;
     }
     @media screen and (max-width: 375px) {
-      font-size: 4rem;
+      font-size: 3.5rem;
     }
   }
 
