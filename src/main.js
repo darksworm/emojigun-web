@@ -45,3 +45,12 @@ setTimeout(function() {
     // ..
   }
 }, 500);
+
+Vue.prototype.$forceCompute = function(computedName, forceUpdate /* default: true */) {
+  if (this._computedWatchers[computedName]) {
+    this._computedWatchers[computedName].run();
+    if (forceUpdate || typeof forceUpdate == 'undefined') {
+        this.$forceUpdate();
+    }
+  }
+}

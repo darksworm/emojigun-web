@@ -43,7 +43,7 @@
     <div id="custom">
       <CustomEmojiList
         class="emojiList"
-        :emojiList="Object.values(emojiList)"
+        :emojiList="emojiArray"
       />
 
       <Loader v-if="loadingNextPage"></Loader>
@@ -77,12 +77,12 @@ export default {
   data: () => {
     return {
       searchValue: "",
-      nextPageURL: "",
       requestedChannels: {},
       emojiList: {},
       searchTimeout: null,
       loadingNextPage: false,
-      hasNextPage: false,
+      page: 1,
+      totalPages: 1,
       showBackToTop: false,
       headerHorizontalMargin: 56.5
     };
@@ -93,6 +93,9 @@ export default {
     },
     selectedEmojiCountWord() {
       return this.selectedEmojiCount == 1 ? "emoji" : "emojis";
+    },
+    emojiArray() {
+      return Object.values(this.emojiList);
     }
   },
   mounted() {
@@ -158,11 +161,13 @@ export default {
       if (
         this.getDistFromBottom() < 500 &&
         !this.loadingNextPage &&
-        this.hasNextPage
+        this.page < this.totalPages
       ) {
         this.loadingNextPage = true;
 
-        this.$http.get(this.nextPageURL).then(
+        let url = this.getUrl(this.searchValue, ++this.page);
+
+        this.$http.get(url).then(
           function(response) {
             event("emojiloader", "load-next-page");
 
@@ -175,10 +180,10 @@ export default {
               }
             }
 
-            this.applyNextPageURL(response.body._links.next);
+            this.totalPages = response.body._pages;
             this.loadingNextPage = false;
 
-            this.$forceUpdate();
+            this.$forceCompute('emojiArray');
           }.bind(this)
         );
       }
@@ -201,15 +206,26 @@ export default {
 
       return Math.max(bodyHeight - (scrollPosition + windowSize), 0);
     },
-    loadEmojisWithFilter(filter) {
-      this.emojiList = [];
-      this.loadingNextPage = true;
-
+    getUrl(searchQuery, page) {
       let url =
         "https://api.frankerfacez.com/v1/emoticons?sort=count&per_page=100";
-      if (filter) {
-        url = url + "&q=" + filter;
+
+      if (searchQuery) {
+        url = url + "&q=" + searchQuery;
       }
+
+      if (page) {
+        url = url + "&page=" + page;
+      }
+
+      return url;
+    },
+    loadEmojisWithFilter(filter) {
+      this.emojiList = {};
+      this.loadingNextPage = true;
+      this.page = 1;
+
+      let url = this.getUrl(filter, this.page);
 
       if (filter) {
         event("emojiloader", "search-query", filter);
@@ -227,11 +243,11 @@ export default {
             }
           }
 
-          this.applyNextPageURL(response.body._links.next);
+          this.$forceCompute("emojiArray");
           this.loadingNextPage = false;
-          this.onResize();
           this.onScroll();
-          this.$forceUpdate();
+          this.onResize();
+          this.totalPages = response.body._pages;
         })
         .catch(() => {
           this.$emit("not-found", this.channelName);
