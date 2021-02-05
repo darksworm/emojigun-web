@@ -36,15 +36,8 @@ export default {
   },
   methods: {
     getEmoji() {
-      let urlTextAfterLastDot = this.largestUrl.split(".").slice(-1)[0];
-      let filename = this.name;
-      if (urlTextAfterLastDot !== this.largestUrl) {
-        filename += "." + urlTextAfterLastDot.toLowerCase();
-      }
-
       return {
         name: this.name,
-        filename: filename,
         url: this.largestUrl
       };
     },
@@ -58,6 +51,8 @@ export default {
 
         xhr.onload = function() {
           emoji.blob = this.response;
+          let fileExtension = emoji.blob.type.split('/').pop();
+          emoji.filename = emoji.name + '.' + fileExtension;
           resolve(emoji);
         };
 
