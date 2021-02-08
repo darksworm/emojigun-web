@@ -163,11 +163,17 @@ export default {
         !this.loadingNextPage &&
         this.page < this.totalPages
       ) {
+        this.loadNextPage();
+      }
+
+      this.showBackToTop = window.pageYOffset > 100;
+    },
+    loadNextPage() {
         this.loadingNextPage = true;
 
         let url = this.getUrl(this.searchValue, ++this.page);
 
-        this.$http.get(url).then(
+        return this.$http.get(url).then(
           function(response) {
             event("emojiloader", "load-next-page");
 
@@ -182,13 +188,12 @@ export default {
 
             this.totalPages = response.body._pages;
             this.loadingNextPage = false;
-
             this.$forceCompute('emojiArray');
+            this.onResize();
+            this.onScroll();
+            this.loadPagesUntilScreenFull();
           }.bind(this)
         );
-      }
-
-      this.showBackToTop = window.pageYOffset > 100;
     },
     applyNextPageURL(url) {
       if (typeof url !== "undefined") {
@@ -220,6 +225,18 @@ export default {
 
       return url;
     },
+    loadPagesUntilScreenFull() {
+      if (this.totalPages > this.page) {
+        let headerHeight = 72;
+        let emojiPerLine = Math.floor(window.innerWidth / 128);
+        let emojiCount = Object.values(this.emojiList).length;
+        let emojiHeight = headerHeight + Math.floor(emojiCount / emojiPerLine) * 128;
+
+        if (window.innerHeight > emojiHeight) {
+          this.loadNextPage();
+        }
+      }
+    },
     loadEmojisWithFilter(filter) {
       this.emojiList = {};
       this.loadingNextPage = true;
@@ -248,6 +265,7 @@ export default {
           this.onScroll();
           this.onResize();
           this.totalPages = response.body._pages;
+          this.loadPagesUntilScreenFull();
         })
         .catch(() => {
           this.$emit("not-found", this.channelName);
