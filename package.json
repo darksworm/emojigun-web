@@ -12,7 +12,7 @@
     "@sentry/integrations": "^5.13.0",
     "core-js": "^3.4.3",
     "ismobilejs": "^1.0.3",
-    "jszip": "^3.2.2",
+    "jszip": "^3.7.0",
     "vue": "^2.6.10",
     "vue-analytics": "^5.22.1",
     "vue-gallery": "^2.0.1",
